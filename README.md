@@ -18,10 +18,6 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install vagrant-butcher
-
 ### If you're not using bundler
 
 You have to install this plugin via Vagrant:
