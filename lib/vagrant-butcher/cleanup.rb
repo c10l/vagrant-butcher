@@ -1,6 +1,11 @@
 module Vagrant
   module Provisioners
     class ChefClient < Chef
+      class Config < Chef::Config
+        attr_accessor :knife_config
+        def knife_config; @knife_config || "#{ENV['HOME']}/.chef/knife.rb"; end
+      end
+
       def cleanup_chef_server(host_name)
         env[:ui].info "Removing node and client \"#{host_name}\" from Chef server"
         [::Chef::Node, ::Chef::ApiClient].each do |chef_resource|

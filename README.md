@@ -6,6 +6,10 @@ This gem attempts to correct that.
 
 ## Installation
 
+Installation will depend on whether you're using bundler or not.
+
+### If you're using Bundler
+
 Add this line to your application's Gemfile:
 
     gem 'vagrant-butcher'
@@ -18,15 +22,25 @@ Or install it yourself as:
 
     $ gem install vagrant-butcher
 
+### If you're not using bundler
+
+You have to install this plugin via Vagrant:
+
+    $ vagrant gem 'vagrant-butcher'
+
+Explanation for that is found on the [Vagrant Plugins Documentation](http://vagrantup.com/v1/docs/extending/types.html)
+
 ## Usage
 
-Stick that on top of your Vagrantfile:
+The plugin is loaded automatically once installed.
 
-    require 'vagrant/butcher'
-    
 By default, the gem looks for `$HOME/.chef/knife.rb` for the Chef server settings. This setting can be overrdidden by setting:
 
-    <code here>
+    Vagrant::Config.run do |config|
+      config.vm.provision :chef_solo do |chef|
+        chef.knife_config = '/path/to/knife.rb'
+      end
+    end
 
 ## Contributing
 
