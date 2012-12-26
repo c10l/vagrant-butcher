@@ -30,7 +30,7 @@ Explanation for that is found on the [Vagrant Plugins Documentation](http://vagr
 
 The plugin is loaded automatically once installed.
 
-By default, the gem looks for `$HOME/.chef/knife.rb` for the Chef server settings. This setting can be overrdidden by setting:
+By default, the gem looks for the Chef server settings on `$HOME/.chef/knife.rb`. This can be overrdidden by setting:
 
     Vagrant::Config.run do |config|
       config.vm.provision :chef_solo do |chef|
