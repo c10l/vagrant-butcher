@@ -7,13 +7,13 @@ module Vagrant
       end
 
       def cleanup_chef_server(host_name)
-        env[:ui].info "Removing node and client \"#{host_name}\" from Chef server"
-        [::Chef::Node, ::Chef::ApiClient].each do |chef_resource|
+        chef_api = ::Chef::REST.new(::Chef::Config[:chef_server_url])
+        %w(node client).each do |resource|
+          env[:ui].info "Removing Chef #{resource} \"#{host_name}\"..."
           begin
-            chef_resource = chef_resource.load(host_name)
-            chef_resource.destroy
+            chef_api.delete_rest("#{resource}s/#{host_name}")
           rescue Exception => e
-            env[:ui].warn "Could not destroy #{chef_resource} #{host_name}: #{e.message}"
+            env[:ui].warn "Could not remove #{resource} #{host_name}: #{e.message}"
           end
         end
       end
