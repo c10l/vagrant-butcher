@@ -22,7 +22,7 @@ And then execute:
 
 You have to install this plugin via Vagrant:
 
-    $ vagrant gem 'vagrant-butcher'
+    $ vagrant gem install 'vagrant-butcher'
 
 Explanation for that is found on the [Vagrant Plugins Documentation](http://vagrantup.com/v1/docs/extending/types.html)
 
