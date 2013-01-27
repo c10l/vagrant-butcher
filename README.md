@@ -10,7 +10,7 @@ Installation will depend on whether you're using bundler or not.
 
 ### If you're using Bundler
 
-Add this line to your application's Gemfile:
+Add this line to your cookbook's Gemfile:
 
     gem 'vagrant-butcher'
 
