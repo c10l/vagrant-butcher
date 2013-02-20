@@ -20,8 +20,13 @@ module Vagrant
 
       def cleanup
         ::Chef::Config.from_file(config.knife_config)
-        host_name = env[:vm].config.vm.provisioners[0].config.node_name
-        cleanup_chef_server(host_name)
+        provs = env[:vm].config.vm.provisioners
+        provs.each do |p|
+          if p.provisioner.name == "Vagrant::Provisioners::ChefClient"
+            host_name = p.config.node_name
+            cleanup_chef_server(host_name)
+          end
+        end
       end
     end
   end
