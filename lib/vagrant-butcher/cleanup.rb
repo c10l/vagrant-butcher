@@ -20,13 +20,23 @@ module Vagrant
 
       def cleanup
         ::Chef::Config.from_file(config.knife_config)
-        provs = env[:vm].config.vm.provisioners
+        conf = env[:vm].config.vm
+
+        # Chef uses this name if no other names are defined
+        victim = conf.box
+
+        # if this is set then the Chef will use it
+        victim = conf.host_name if conf.host_name
+
+        provs = conf.provisioners
         provs.each do |p|
           if p.provisioner.name == "Vagrant::Provisioners::ChefClient"
-            host_name = p.config.node_name
-            cleanup_chef_server(host_name)
+
+            # or if this one is set, Chef will use this
+            victim = p.config.node_name if p.config.node_name
           end
         end
+        cleanup_chef_server(victim)
       end
     end
   end
