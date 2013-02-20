@@ -20,7 +20,8 @@ module Vagrant
 
       def cleanup
         ::Chef::Config.from_file(config.knife_config)
-        cleanup_chef_server(env[:vm].config.vm.host_name)
+        host_name = env[:vm].config.vm.provisioners[0].config.node_name
+        cleanup_chef_server(host_name)
       end
     end
   end
