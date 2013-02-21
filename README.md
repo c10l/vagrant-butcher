@@ -6,6 +6,12 @@ If you're using Vagrant with the Chef-Client provisioner, e.g. for creating cook
 
 This gem attempts to correct that.
 
+## Changelog
+
+### Version 0.0.3
+
+* Uses chef.node_name if set. Otherwise, fall back to vm.host_name (as before), or vm.box. -- _Kudos to [pikesley](https://github.com/pikesley)_.
+
 ## Installation
 
 Installation will depend on whether you're using bundler or not.
