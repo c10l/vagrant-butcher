@@ -6,14 +6,14 @@ module Vagrant
         def knife_config; @knife_config || "#{ENV['HOME']}/.chef/knife.rb"; end
       end
 
-      def cleanup_chef_server(host_name)
+      def cleanup_chef_server(node_name)
         chef_api = ::Chef::REST.new(::Chef::Config[:chef_server_url])
         %w(node client).each do |resource|
-          env[:ui].info "Removing Chef #{resource} \"#{host_name}\"..."
+          env[:ui].info "Removing Chef #{resource} \"#{node_name}\"..."
           begin
-            chef_api.delete_rest("#{resource}s/#{host_name}")
+            chef_api.delete_rest("#{resource}s/#{node_name}")
           rescue Exception => e
-            env[:ui].warn "Could not remove #{resource} #{host_name}: #{e.message}"
+            env[:ui].warn "Could not remove #{resource} #{node_name}: #{e.message}"
           end
         end
       end
@@ -22,20 +22,16 @@ module Vagrant
         ::Chef::Config.from_file(config.knife_config)
         conf = env[:vm].config.vm
 
-        # Chef uses this name if no other names are defined
-        victim = conf.box
+        # If a node_name is given to the chef-client provisioner, use it
+        chef_provisioner = conf.provisioners.find { |p| p.provisioner.name == "Vagrant::Provisioners::ChefClient" }
+        victim = chef_provisioner.config.node_name
 
-        # if this is set then the Chef will use it
-        victim = conf.host_name if conf.host_name
-
-        provs = conf.provisioners
-        provs.each do |p|
-          if p.provisioner.name == "Vagrant::Provisioners::ChefClient"
-
-            # or if this one is set, Chef will use this
-            victim = p.config.node_name if p.config.node_name
-          end
+        # If no node_name, fall back to host_name or box
+        if not victim then
+          env[:ui].info "No chef.node_name set, falling back to vm.host_name or vm.box."
+          victim ||= conf.host_name || conf.box
         end
+
         cleanup_chef_server(victim)
       end
     end
