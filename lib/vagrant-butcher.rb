@@ -1,4 +1,7 @@
-require "vagrant/provisioners/chef"
-require "vagrant-butcher/version"
-require "vagrant-butcher/cleanup"
-require "chef"
+module Vagrant
+  module Butcher
+    autoload :Action, 'vagrant-butcher/action'
+  end
+end
+
+require 'vagrant-butcher/plugin'
