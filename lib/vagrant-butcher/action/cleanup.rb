@@ -31,7 +31,7 @@ module Vagrant
         end
 
         def call(env)
-          ::Chef::Config.from_file(Config.knife_config)
+          ::Chef::Config.from_file(env[:machine].config.butcher.knife_config_path)
           %w(node client).each { |resource| delete_resource(resource) }
 
           @app.call(env)
