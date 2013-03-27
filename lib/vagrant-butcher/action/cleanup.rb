@@ -21,6 +21,10 @@ module Vagrant
           end.config
         end
 
+        def chef_client?
+          vm_config.provisioners.select { |p| p.name == :chef_client }.any?
+        end
+
         def delete_resource(resource)
           @env[:ui].info "Removing Chef #{resource} \"#{victim}\"..."
           begin
@@ -31,8 +35,10 @@ module Vagrant
         end
 
         def call(env)
-          ::Chef::Config.from_file env[:machine].config.butcher.finalize!
-          %w(node client).each { |resource| delete_resource(resource) }
+          if chef_client?
+            ::Chef::Config.from_file env[:machine].config.butcher.finalize!
+            %w(node client).each { |resource| delete_resource(resource) }
+          end
 
           @app.call(env)
         end
