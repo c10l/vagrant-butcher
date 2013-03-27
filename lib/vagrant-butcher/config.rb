@@ -13,6 +13,10 @@ module Vagrant
       end
       
       def validate(machine)
+        errors = []
+        errors << "Knife configuration not found at #{@knife_config_path}." if !File.exists?(@knife_config_path)
+        
+        { "butcher configuration" => errors }
       end
       
       def finalize!
