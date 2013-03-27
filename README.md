@@ -23,7 +23,7 @@ This gem attempts to correct that.
 
 Starting with version 1.0.0, installation is made via Vagrant plugins only:
 
-    $ vagrant plugin install vagrant-butcher --plugin-source https://rubygems.org --plugin-version 1.0.0.pre
+    $ vagrant plugin install vagrant-butcher --plugin-source https://rubygems.org --plugin-version 1.0.0.pre1
 
 ## <a id='usage'></a>Usage
 
