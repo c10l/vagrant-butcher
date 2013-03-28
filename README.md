@@ -9,6 +9,10 @@ This gem attempts to correct that.
 
 ## Changelog
 
+### Version 1.0.0.pre2
+
+* Should work with any provider.
+
 ### Version 1.0.0.pre
 
 * Support for Vagrant 1.x (it's been tested on 1.4, but should work on previous minor releases) -- if you're using a pre-1.0 Vagrant release, stick to vagrant-butcher 0.0.3.
@@ -23,7 +27,7 @@ This gem attempts to correct that.
 
 Starting with version 1.0.0, installation is made via Vagrant plugins only:
 
-    $ vagrant plugin install vagrant-butcher --plugin-source https://rubygems.org --plugin-version 1.0.0.pre1
+    $ vagrant plugin install vagrant-butcher --plugin-source https://rubygems.org --plugin-version 1.0.0.pre2
 
 ## <a id='usage'></a>Usage
 
