@@ -26,11 +26,11 @@ module Vagrant
         end
 
         def delete_resource(resource)
-          @env[:ui].info "Removing Chef #{resource} \"#{victim}\"..."
+          @env[:butcher].ui.info "Removing Chef #{resource} \"#{victim}\"..."
           begin
             chef_api.delete_rest("#{resource}s/#{victim}")
           rescue Exception => e
-            @env[:ui].warn "Could not remove #{resource} #{victim}: #{e.message}"
+            @env[:butcher].ui.warn "Could not remove #{resource} #{victim}: #{e.message}"
           end
         end
 
