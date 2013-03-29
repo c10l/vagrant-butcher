@@ -26,17 +26,30 @@ module Vagrant
         end
 
         def delete_resource(resource)
-          @env[:butcher].ui.info "Removing Chef #{resource} \"#{victim}\"..."
           begin
             chef_api.delete_rest("#{resource}s/#{victim}")
+            @env[:butcher].ui.success "Chef #{resource} \"#{victim}\" successfully butchered from the server..."
           rescue Exception => e
             @env[:butcher].ui.warn "Could not remove #{resource} #{victim}: #{e.message}"
           end
         end
 
+        def knife_config_path(env)
+          # Make sure that the default is set
+          env[:machine].config.butcher.finalize!
+
+          env[:butcher].ui.info "knife.rb location set to '#{env[:machine].config.butcher.knife_config_path}'"
+          env[:machine].config.butcher.knife_config_path
+        end
+
         def call(env)
           if chef_client?
-            ::Chef::Config.from_file env[:machine].config.butcher.finalize!
+            begin
+              ::Chef::Config.from_file knife_config_path(env)
+            rescue Errno::ENOENT => e
+              raise ::Vagrant::Butcher::VagrantWrapperError.new(e)
+            end
+
             %w(node client).each { |resource| delete_resource(resource) }
           end
 
