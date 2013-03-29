@@ -1,11 +1,5 @@
-require 'vagrant'
-
 module Vagrant
   module Butcher
-    autoload :Action, 'vagrant-butcher/action'
-    autoload :Config, 'vagrant-butcher/config'
-    autoload :Env,    'vagrant-butcher/env'
-    
     class Plugin < Vagrant.plugin('2')
       name "vagrant-butcher"
       description <<-DESC
