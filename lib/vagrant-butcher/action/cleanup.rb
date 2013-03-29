@@ -34,18 +34,18 @@ module Vagrant
           end
         end
 
-        def knife_config_path(env)
+        def knife_config_file(env)
           # Make sure that the default is set
           env[:machine].config.butcher.finalize!
 
-          env[:butcher].ui.info "knife.rb location set to '#{env[:machine].config.butcher.knife_config_path}'"
-          env[:machine].config.butcher.knife_config_path
+          env[:butcher].ui.info "knife.rb location set to '#{env[:machine].config.butcher.knife_config_file}'"
+          env[:machine].config.butcher.knife_config_file
         end
 
         def call(env)
           if chef_client?
             begin
-              ::Chef::Config.from_file knife_config_path(env)
+              ::Chef::Config.from_file knife_config_file(env)
             rescue Errno::ENOENT => e
               raise ::Vagrant::Butcher::VagrantWrapperError.new(e)
             end

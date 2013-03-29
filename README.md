@@ -12,6 +12,7 @@ This gem attempts to correct that.
 ### Version 1.0.0.pre3
 
 * Fix call to `Config#finalize!`
+* Configuration option renamed to `knife_config_file`
 
 ### Version 1.0.0.pre2
 
@@ -40,7 +41,7 @@ The plugin is loaded automatically once installed.
 By default, the gem looks for the Chef server settings on `$HOME/.chef/knife.rb`. This can be overrdidden by setting:
 
     Vagrant.configure("2") do |config|
-      config.butcher.knife_config_path = '/path/to/knife.rb'
+      config.butcher.knife_config_file = '/path/to/knife.rb'
       config.vm.provision :chef_client do |chef|
         # Chef Client provisioner configuration
       end

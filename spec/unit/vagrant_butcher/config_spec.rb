@@ -4,7 +4,7 @@ describe Vagrant::Butcher::Config do
   subject { described_class.new }
   
   it "has the option to set knife.rb path" do
-    subject.should respond_to(:knife_config_path)
+    subject.should respond_to(:knife_config_file)
   end
   
   it "sets knife.rb default path" do
@@ -19,7 +19,7 @@ describe Vagrant::Butcher::Config do
     
     context "when validations pass" do
       before(:each) do
-        File.should_receive(:exists?).with(subject.knife_config_path).and_return(true)
+        File.should_receive(:exists?).with(subject.knife_config_file).and_return(true)
       end
 
       it "contains an empty Array for the 'butcher configuration' key" do
@@ -30,7 +30,7 @@ describe Vagrant::Butcher::Config do
     
     context "when validations fail" do
       before(:each) do
-        File.should_receive(:exists?).with(subject.knife_config_path).and_return(false)
+        File.should_receive(:exists?).with(subject.knife_config_file).and_return(false)
       end
 
       it "contains an empty Array for the 'butcher configuration' key" do
