@@ -8,6 +8,10 @@ This gem attempts to correct that.
 
 ## Changelog
 
+### Version 1.0.0
+
+There's a pre-release plugin version that works on Vagrant 1.1+. If you need that or want to help with the testing, have a look at the README on the [release/1.0](https://github.com/cassianoleal/vagrant-butcher/tree/release/1.0) branch.
+
 ### Version 0.0.3
 
 * Uses chef.node_name if set. Otherwise, fall back to vm.host_name (as before), or vm.box. -- _Kudos to [pikesley](https://github.com/pikesley)_.
