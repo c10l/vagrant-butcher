@@ -20,7 +20,7 @@ module Vagrant
         def delete_resource(resource)
           begin
             chef_api(@env).delete_rest("#{resource}s/#{victim}")
-            @env[:butcher].ui.success "Chef #{resource} \"#{victim}\" successfully butchered from the server..."
+            @env[:butcher].ui.success "Chef #{resource} '#{victim}' successfully butchered from the server..."
           rescue Exception => e
             @env[:butcher].ui.warn "Could not remove #{resource} #{victim}: #{e.message}"
           end
