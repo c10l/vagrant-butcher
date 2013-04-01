@@ -1,54 +1,60 @@
 [![Gem Version](https://badge.fury.io/rb/vagrant-butcher.png)](http://badge.fury.io/rb/vagrant-butcher)
+[![Build Status](https://travis-ci.org/cassianoleal/vagrant-butcher.png)](https://travis-ci.org/cassianoleal/vagrant-butcher)
+[![Code Climate](https://codeclimate.com/github/cassianoleal/vagrant-butcher.png)](https://codeclimate.com/github/cassianoleal/vagrant-butcher)
 
 # Vagrant::Butcher
 
-If you're using Vagrant with the Chef-Client provisioner, e.g. for creating cookbooks, it creates a client and a node on the Chef server. Once you destroy the VM, both the client and node will be kept on the server, which may cause problems if you fire up the same VM again.
+If you're using Vagrant with the Chef-Client provisioner it creates a client and a node on the Chef server when the VM spins up.
 
-This gem attempts to correct that.
+This plugin will automatically get rid of that cruft for you when you destroy the VM.
 
 ## Changelog
 
-### Version 1.0.0
+### 1.0.0
 
-There's a pre-release plugin version that works on Vagrant 1.1+. If you need that or want to help with the testing, have a look at the README on the [release/1.0](https://github.com/cassianoleal/vagrant-butcher/tree/release/1.0) branch.
+* Support for Vagrant 1.x (it's been tested on 1.4, but should work on previous minor releases) -- if you're using a pre-1.0 Vagrant release, stick to vagrant-butcher 0.0.3.
+* [Configuration](#usage) change.
+* [Installation](#install) via `vagrant plugin` only.
+* Provider-independent. _[Read more](#caveats)_
 
-### Version 0.0.3
+### 0.0.3
 
 * Uses chef.node_name if set. Otherwise, fall back to vm.host_name (as before), or vm.box. -- _Kudos to [pikesley](https://github.com/pikesley)_.
 
-## Installation
+## <a id="install"></a>Installation
 
-Installation will depend on whether you're using bundler or not.
+Starting with version 1.0.0, installation is made via Vagrant plugins only:
 
-### If you're using Bundler
+    $ vagrant plugin install vagrant-butcher
 
-Add this line to your cookbook's Gemfile:
-
-    gem 'vagrant-butcher'
-
-And then execute:
-
-    $ bundle
-
-### If you're not using bundler
-
-You have to install this plugin via Vagrant:
-
-    $ vagrant gem install 'vagrant-butcher'
-
-Explanation for that is found on the [Vagrant Plugins Documentation](http://vagrantup.com/v1/docs/extending/types.html)
-
-## Usage
+## <a id='usage'></a>Usage
 
 The plugin is loaded automatically once installed.
 
-By default, the gem looks for the Chef server settings on `$HOME/.chef/knife.rb`. This can be overrdidden by setting:
+By default, the gem looks for the Chef server settings on `$HOME/.chef/knife.rb`. This can be overridden by setting:
 
-    Vagrant::Config.run do |config|
-      config.vm.provision :chef_solo do |chef|
-        chef.knife_config = '/path/to/knife.rb'
+    Vagrant.configure("2") do |config|
+      config.butcher.knife_config_file = '/path/to/knife.rb'
+      config.vm.provision :chef_client do |chef|
+        # Chef Client provisioner configuration
       end
     end
+
+_Note that beginning with 1.0, the configuration is done outside of the `chef_client` provisioner._
+
+This is the output of the plugin when it runs successfully:
+
+    $ vagrant destroy -f
+    [Butcher] knife.rb location set to '/path/to/knife.rb'
+    [Butcher] Chef node 'node_name' successfully butchered from the server...
+    [Butcher] Chef client 'node_name' successfully butchered from the server...
+    [default] Forcing shutdown of VM...
+    [default] Destroying VM and associated drives...
+
+## <a id='caveats'></a>Caveats
+
+* Version 1.0 has only been tested with Vagrant 1.1+. If you're using an older version, it's probably best to stick to 0.0.3
+* So far this has only been tested and confirmed to run with the VirtualBox and Rackspace provisioners. It should work with others, but if you run into issues please file a bug.
 
 ## Contributing
 

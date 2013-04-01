@@ -1,5 +1,5 @@
 module Vagrant
   module Butcher
-    VERSION = "0.0.4.pre"
+    VERSION = "1.0.0.pre3"
   end
 end
