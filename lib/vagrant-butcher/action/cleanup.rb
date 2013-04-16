@@ -10,19 +10,18 @@ module Vagrant
 
         def initialize(app, env)
           @app = app
-          @env = env
         end
 
-        def victim
-          @victim ||= chef_provisioner(@env).node_name || vm_config(@env).hostname || vm_config(@env).box
+        def victim(env)
+          @victim ||= chef_provisioner(env).node_name || vm_config(env).hostname || vm_config(env).box
         end
 
-        def delete_resource(resource)
+        def delete_resource(resource, env)
           begin
-            chef_api(@env).delete_rest("#{resource}s/#{victim}")
-            @env[:butcher].ui.success "Chef #{resource} '#{victim}' successfully butchered from the server..."
+            chef_api(env).delete_rest("#{resource}s/#{victim(env)}")
+            env[:butcher].ui.success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
           rescue Exception => e
-            @env[:butcher].ui.warn "Could not remove #{resource} #{victim}: #{e.message}"
+            env[:butcher].ui.warn "Could not remove #{resource} #{victim(env)}: #{e.message}"
           end
         end
 
@@ -34,7 +33,7 @@ module Vagrant
               raise ::Vagrant::Butcher::VagrantWrapperError.new(e)
             end
 
-            %w(node client).each { |resource| delete_resource(resource) }
+            %w(node client).each { |resource| delete_resource(resource, env) }
           end
 
           @app.call(env)
