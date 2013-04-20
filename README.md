@@ -10,9 +10,13 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 ## Changelog
 
+### 1.0.1
+
+* Support for Vagrant 1.2
+
 ### 1.0.0
 
-* Support for Vagrant 1.x (it's been tested on 1.4, but should work on previous minor releases) -- if you're using a pre-1.0 Vagrant release, stick to vagrant-butcher 0.0.3.
+* Support for Vagrant 1.x (it's been tested on 1.1.4, but should work on previous minor releases) -- if you're using a pre-1.0 Vagrant release, stick to vagrant-butcher 0.0.3.
 * [Configuration](#usage) change.
 * [Installation](#install) via `vagrant plugin` only.
 * Provider-independent. _[Read more](#caveats)_
