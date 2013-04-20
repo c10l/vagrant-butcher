@@ -8,23 +8,6 @@ If you're using Vagrant with the Chef-Client provisioner it creates a client and
 
 This plugin will automatically get rid of that cruft for you when you destroy the VM.
 
-## Changelog
-
-### 1.0.1
-
-* Support for Vagrant 1.2
-
-### 1.0.0
-
-* Support for Vagrant 1.x (it's been tested on 1.1.4, but should work on previous minor releases) -- if you're using a pre-1.0 Vagrant release, stick to vagrant-butcher 0.0.3.
-* [Configuration](#usage) change.
-* [Installation](#install) via `vagrant plugin` only.
-* Provider-independent. _[Read more](#caveats)_
-
-### 0.0.3
-
-* Uses chef.node_name if set. Otherwise, fall back to vm.host_name (as before), or vm.box. -- _Kudos to [pikesley](https://github.com/pikesley)_.
-
 ## <a id="install"></a>Installation
 
 Starting with version 1.0.0, installation is made via Vagrant plugins only:
@@ -59,6 +42,23 @@ This is the output of the plugin when it runs successfully:
 
 * Version 1.0 has only been tested with Vagrant 1.1+. If you're using an older version, it's probably best to stick to 0.0.3
 * So far this has only been tested and confirmed to run with the VirtualBox and Rackspace provisioners. It should work with others, but if you run into issues please file a bug.
+
+## Changelog
+
+### 1.0.1
+
+* Support for Vagrant 1.2
+
+### 1.0.0
+
+* Support for Vagrant 1.x (it's been tested on 1.1.4, but should work on previous minor releases) -- if you're using a pre-1.0 Vagrant release, stick to vagrant-butcher 0.0.3.
+* [Configuration](#usage) change.
+* [Installation](#install) via `vagrant plugin` only.
+* Provider-independent. _[Read more](#caveats)_
+
+### 0.0.3
+
+* Uses chef.node_name if set. Otherwise, fall back to vm.host_name (as before), or vm.box. -- _Kudos to [pikesley](https://github.com/pikesley)_.
 
 ## Contributing
 
