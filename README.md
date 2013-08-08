@@ -20,12 +20,14 @@ The plugin is loaded automatically once installed.
 
 By default, the gem looks for the Chef server settings on `$HOME/.chef/knife.rb`. This can be overridden by setting:
 
-    Vagrant.configure("2") do |config|
-      config.butcher.knife_config_file = '/path/to/knife.rb'
-      config.vm.provision :chef_client do |chef|
-        # Chef Client provisioner configuration
-      end
-    end
+```ruby
+Vagrant.configure("2") do |config|
+  config.butcher.knife_config_file = '/path/to/knife.rb'
+  config.vm.provision :chef_client do |chef|
+    # Chef Client provisioner configuration
+  end
+end
+```
 
 _Note that beginning with 1.0, the configuration is done outside of the `chef_client` provisioner._
 
