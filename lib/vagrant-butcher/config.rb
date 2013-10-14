@@ -14,16 +14,8 @@ module Vagrant
         @knife_config_file = UNSET_VALUE
       end
 
-      def machine_key_path=(value)
-        @mathine_key_path = value
-      end
-
       def cache_dir=(value)
         @cache_dir = File.expand_path(value)
-      end
-
-      def machine_cache_dir=(value)
-        @machine_cache_dir = value
       end
 
       def knife_config_file=(value)
