@@ -44,6 +44,10 @@ This is the output of the plugin when it runs successfully:
 
 Starting with version 1.0.2 you can set the knife_config_file to `:auto` if you'd like it to automatically create a knife.rb for that instance from the chef provisioner values.
 
+This option has the following two limitations:
+- It doesn't work with windows guests.
+- The default `.` -> `/vagrant` shared folder should be mounted.
+
 ## <a id='caveats'></a>Caveats
 
 * Version 1.0 has only been tested with Vagrant 1.1+. If you're using an older version, it's probably best to stick to 0.0.3

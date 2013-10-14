@@ -17,6 +17,11 @@ module Vagrant
         end
 
         def auto_create_knife(env)
+          folders = vm_config(env).synced_folders
+          if !folders.has_key?("/vagrant") || folders["/vagrant"][:disabled] == TRUE
+            env[:butcher].ui.warn "/vagrant folder not set to be mounted."
+          end
+
           unless File.exists?(cache_dir(env))
             env[:butcher].ui.info "Creating #{cache_dir(env)}"
             Dir.mkdir(cache_dir(env))
