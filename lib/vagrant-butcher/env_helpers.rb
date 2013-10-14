@@ -19,12 +19,92 @@ module Vagrant
         vm_config(env).provisioners.select { |p| p.name == :chef_client }.any?
       end
 
-      def knife_config_file(env)
-        # Make sure that the default is set
-        env[:machine].config.butcher.finalize!
+      def auto_knife?(env)
+        butcher_config(env).knife_config_file == :auto
+      end
 
-        env[:butcher].ui.info "knife.rb location set to '#{env[:machine].config.butcher.knife_config_file}'"
-        env[:machine].config.butcher.knife_config_file
+      def butcher_config(env)
+        @butcher_config ||= env[:machine].config.butcher
+      end
+
+      def cache_dir(env)
+        unless @cache_dir
+          env[:butcher].ui.info "cache dir is set to '#{butcher_config(env).cache_dir}'"
+        end
+
+        @cache_dir ||= butcher_config(env).cache_dir
+      end
+
+      def guest_cache_dir(env)
+        unless @guest_cache_dir
+          @guest_cache_dir = butcher_config(env).guest_cache_dir
+          env[:butcher].ui.info "guest cache dir is set to '#{@guest_cache_dir}'"
+        end
+
+        @guest_cache_dir
+      end
+
+      def guest_key_path(env)
+        unless @guest_key_path
+          @guest_key_path = butcher_config(env).guest_key_path
+          env[:butcher].ui.info "guest key path is set to '#{@guest_key_path}'"
+        end
+
+        @guest_key_path
+      end
+
+      def auto_knife_config_file(env)
+        @auto_knife_config_file ||= "#{cache_dir(env)}/#{env[:machine].name}-knife.rb"
+      end
+
+      def knife_config_file(env)
+        unless @knife_config_file
+          if auto_knife?(env)
+            file = "#{cache_dir(env)}/#{env[:machine].name}-knife.rb"
+            unless File.exists?(file)
+              file = false
+            end
+          else
+            file = butcher_config(env).knife_config_file
+          end
+
+          env[:butcher].ui.info "knife.rb location set to '#{file}'"
+
+          @knife_config_file = file
+        end
+
+        @knife_config_file
+      end
+
+      def auto_knife_key(env)
+        unless @auto_knife_key
+          @auto_knife_key = "#{env[:machine].name}-client.pem"
+          env[:butcher].ui.info "auto client key name is #{@auto_knife_key}"
+        end
+
+        @auto_knife_key
+      end
+
+      def auto_knife_key_path(env)
+        unless @auto_knife_key_path
+          @auto_knife_key_path = "#{cache_dir(env)}/#{auto_knife_key(env)}"
+          env[:butcher].ui.info "auto client key path is #{@auto_knife_key_path}"
+        end
+
+        @auto_knife_key_path
+      end
+
+      def auto_knife_guest_key_path(env)
+        unless @auto_knife_guest_key_path
+          @auto_knife_guest_key_path = "#{guest_cache_dir(env)}/#{auto_knife_key(env)}"
+          env[:butcher].ui.info "auto client guest key path is #{@auto_knife_guest_key_path}"
+        end
+
+        @auto_knife_guest_key_path
+      end
+
+      def victim(env)
+        @victim ||= chef_provisioner(env).node_name || vm_config(env).hostname || vm_config(env).box
       end
     end
   end
