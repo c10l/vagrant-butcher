@@ -40,12 +40,20 @@ This is the output of the plugin when it runs successfully:
     [default] Forcing shutdown of VM...
     [default] Destroying VM and associated drives...
 
+### <a id='auto_knife'></a>Auto Knife
+
+Starting with version 1.0.2 you can set the knife_config_file to `:auto` if you'd like it to automatically create a knife.rb for that instance from the chef provisioner values.
+
 ## <a id='caveats'></a>Caveats
 
 * Version 1.0 has only been tested with Vagrant 1.1+. If you're using an older version, it's probably best to stick to 0.0.3
 * So far this has only been tested and confirmed to run with the VirtualBox and Rackspace provisioners. It should work with others, but if you run into issues please file a bug.
 
 ## Changelog
+
+### 1.0.2
+
+* :auto was added as an optional value for knife_config_file
 
 ### 1.0.1
 
