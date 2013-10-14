@@ -23,14 +23,14 @@ module Vagrant
           end
 
           begin
-            env[:machine].communicate.execute "cp #{machine_key_path(env)} #{auto_knife_machine_key_path(env)}", :sudo => true
+            env[:machine].communicate.execute "cp #{guest_key_path(env)} #{auto_knife_guest_key_path(env)}", :sudo => true
           rescue Exception => e
-            env[:butcher].ui.error "Failed to copy  #{machine_key_path(env)} to #{auto_knife_key_path(env)}"
+            env[:butcher].ui.error "Failed to copy  #{guest_key_path(env)} to #{auto_knife_key_path(env)}"
             env[:butcher].ui.error e
             return false
           end
 
-          env[:butcher].ui.info "Copied #{machine_key_path(env)} to #{auto_knife_key_path(env)}"
+          env[:butcher].ui.info "Copied #{guest_key_path(env)} to #{auto_knife_key_path(env)}"
 
           env[:butcher].ui.info "Creating #{auto_knife_config_file(env)}"
 

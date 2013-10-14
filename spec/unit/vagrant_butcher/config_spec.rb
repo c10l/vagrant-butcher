@@ -7,25 +7,25 @@ describe Vagrant::Butcher::Config do
     subject.should respond_to(:knife_config_file)
   end
   
-  it "has the option to set machine chef client pem path" do
-    subject.should respond_to(:machine_key_path)
+  it "has the option to set guest chef client pem path" do
+    subject.should respond_to(:guest_key_path)
   end
   
   it "has the option to set cache dir path" do
     subject.should respond_to(:cache_dir)
   end
   
-  it "has the option to set machine cache dir path" do
-    subject.should respond_to(:machine_cache_dir)
+  it "has the option to set guest cache dir path" do
+    subject.should respond_to(:guest_cache_dir)
   end
   
   it "sets knife.rb default path" do
     subject.finalize!.should eql(File.expand_path("#{ENV['HOME']}/.chef/knife.rb"))
   end
   
-  it "sets machine chef client pem default path" do
+  it "sets guest chef client pem default path" do
     subject.finalize!
-    subject.machine_key_path.should eql('/etc/chef/client.pem')
+    subject.guest_key_path.should eql('/etc/chef/client.pem')
   end
   
   it "sets cache dir default path" do
@@ -33,9 +33,9 @@ describe Vagrant::Butcher::Config do
     subject.cache_dir.should eql(File.expand_path(".vagrant-butcher"))
   end
   
-  it "sets machine cache dir default path" do
+  it "sets guest cache dir default path" do
     subject.finalize!
-    subject.machine_cache_dir.should eql("/vagrant/" + File.basename(subject.cache_dir))
+    subject.guest_cache_dir.should eql("/vagrant/" + File.basename(subject.cache_dir))
   end
   
   describe "#validate" do

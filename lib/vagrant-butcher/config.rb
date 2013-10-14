@@ -1,16 +1,16 @@
 module Vagrant
   module Butcher
     class Config < ::Vagrant.plugin('2', :config)
-      attr_accessor :machine_key_path
+      attr_accessor :guest_key_path
       attr_accessor :cache_dir
-      attr_accessor :machine_cache_dir
+      attr_accessor :guest_cache_dir
       attr_accessor :knife_config_file
       
       def initialize
         super
-        @machine_key_path = UNSET_VALUE
+        @guest_key_path = UNSET_VALUE
         @cache_dir = UNSET_VALUE
-        @machine_cache_dir = UNSET_VALUE
+        @guest_cache_dir = UNSET_VALUE
         @knife_config_file = UNSET_VALUE
       end
 
@@ -37,9 +37,9 @@ module Vagrant
       end
       
       def finalize!
-        @machine_key_path = '/etc/chef/client.pem' if @machine_key_path == UNSET_VALUE
+        @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
         @cache_dir = File.expand_path ".vagrant-butcher" if @cache_dir == UNSET_VALUE
-        @machine_cache_dir = "/vagrant/" + File.basename(@cache_dir) if @machine_cache_dir == UNSET_VALUE
+        @guest_cache_dir = "/vagrant/" + File.basename(@cache_dir) if @guest_cache_dir == UNSET_VALUE
         @knife_config_file = File.expand_path "#{ENV['HOME']}/.chef/knife.rb" if @knife_config_file == UNSET_VALUE
       end
     end
