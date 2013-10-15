@@ -42,7 +42,7 @@ This is the output of the plugin when it runs successfully:
 
 ### <a id='auto_knife'></a>Auto Knife
 
-Starting with version 1.0.2 you can set the knife_config_file to `:auto` if you'd like it to automatically create a knife.rb for that instance from the chef provisioner values.
+Starting with version 1.1.0 you can set the knife_config_file to `:auto` if you'd like it to automatically create a knife.rb for that instance from the chef provisioner values.
 
 This option has the following two limitations:
 - It doesn't work with windows guests.
@@ -55,7 +55,7 @@ This option has the following two limitations:
 
 ## Changelog
 
-### 1.0.2
+### 1.1.0
 
 * :auto was added as an optional value for knife_config_file
 
