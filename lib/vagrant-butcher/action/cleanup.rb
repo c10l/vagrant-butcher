@@ -24,7 +24,6 @@ module Vagrant
         end
 
         def delete_auto_knife(env)
-          env[:butcher].ui.info 'hwsee'
           if @delete_all_success
             File.delete(auto_knife_config_file(env))
             File.delete(auto_knife_key_path(env))
