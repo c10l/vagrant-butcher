@@ -37,8 +37,24 @@ module Vagrant
 
       def guest_cache_dir(env)
         unless @guest_cache_dir
-          @guest_cache_dir = butcher_config(env).guest_cache_dir
-          env[:butcher].ui.info "guest cache dir is set to '#{@guest_cache_dir}'"
+          @guest_cache_dir = false
+
+          vm_config(env).synced_folders.each_value do |f|
+            next if f[:disabled]
+
+            regex = Regexp.new('^' + Regexp.quote(File.expand_path(f[:hostpath])))
+            if cache_dir(env) =~ regex
+              @guest_cache_dir = cache_dir(env).gsub(regex, f[:guestpath])
+              break
+            end
+          end
+
+          if (@guest_cache_dir)
+            env[:butcher].ui.info "guest cache dir is set to '#{@guest_cache_dir}'"
+          else
+            env[:butcher].ui.error "We couldn't find a synced folder to access the cache dir on the guest."
+            env[:butcher].ui.error "Did you disable the /vagrant folder or set a butcher.cache_path that isn't shared with the guest?"
+          end
         end
 
         @guest_cache_dir
