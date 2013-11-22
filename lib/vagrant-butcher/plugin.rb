@@ -1,7 +1,3 @@
-require 'chef/config'
-require 'chef/rest'
-require 'chef/api_client'
-
 module Vagrant
   module Butcher
     class Plugin < Vagrant.plugin('2')
