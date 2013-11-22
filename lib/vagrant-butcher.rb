@@ -1,4 +1,8 @@
-require 'vagrant'
+begin
+  require "vagrant"
+rescue LoadError
+  raise "This plugin must run within Vagrant."
+end
 require 'vagrant-butcher/version'
 require 'vagrant-butcher/errors'
 
