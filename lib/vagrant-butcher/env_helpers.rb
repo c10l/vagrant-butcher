@@ -29,7 +29,7 @@ module Vagrant
 
       def cache_dir(env)
         unless @cache_dir
-          env[:butcher].ui.info "cache dir is set to '#{butcher_config(env).cache_dir}'"
+          env[:butcher].ui.info "Cache dir is set to '#{butcher_config(env).cache_dir}'"
         end
 
         @cache_dir = butcher_config(env).cache_dir
@@ -50,7 +50,7 @@ module Vagrant
           end
 
           if (@guest_cache_dir)
-            env[:butcher].ui.info "guest cache dir is set to '#{@guest_cache_dir}'"
+            env[:butcher].ui.info "Guest cache dir is set to '#{@guest_cache_dir}'"
           else
             env[:butcher].ui.error "We couldn't find a synced folder to access the cache dir on the guest."
             env[:butcher].ui.error "Did you disable the /vagrant folder or set a butcher.cache_path that isn't shared with the guest?"
@@ -63,7 +63,7 @@ module Vagrant
       def guest_key_path(env)
         unless @guest_key_path
           @guest_key_path = butcher_config(env).guest_key_path
-          env[:butcher].ui.info "guest key path is set to '#{@guest_key_path}'"
+          env[:butcher].ui.info "Guest key path is set to '#{@guest_key_path}'"
         end
 
         @guest_key_path
@@ -95,7 +95,7 @@ module Vagrant
       def auto_knife_key(env)
         unless @auto_knife_key
           @auto_knife_key = "#{env[:machine].name}-client.pem"
-          env[:butcher].ui.info "auto client key name is #{@auto_knife_key}"
+          env[:butcher].ui.info "Auto client key name is #{@auto_knife_key}"
         end
 
         @auto_knife_key
@@ -104,7 +104,7 @@ module Vagrant
       def auto_knife_key_path(env)
         unless @auto_knife_key_path
           @auto_knife_key_path = "#{cache_dir(env)}/#{auto_knife_key(env)}"
-          env[:butcher].ui.info "auto client key path is #{@auto_knife_key_path}"
+          env[:butcher].ui.info "Auto client key path is #{@auto_knife_key_path}"
         end
 
         @auto_knife_key_path
@@ -113,7 +113,7 @@ module Vagrant
       def auto_knife_guest_key_path(env)
         unless @auto_knife_guest_key_path
           @auto_knife_guest_key_path = "#{guest_cache_dir(env)}/#{auto_knife_key(env)}"
-          env[:butcher].ui.info "auto client guest key path is #{@auto_knife_guest_key_path}"
+          env[:butcher].ui.info "Auto client guest key path is #{@auto_knife_guest_key_path}"
         end
 
         @auto_knife_guest_key_path

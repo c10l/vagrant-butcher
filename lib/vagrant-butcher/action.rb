@@ -3,7 +3,7 @@ module Vagrant
     module Action
       autoload :Cleanup, 'vagrant-butcher/action/cleanup'
       autoload :AutoKnife, 'vagrant-butcher/action/auto_knife'
-      
+
       def self.cleanup
         ::Vagrant::Action::Builder.new.tap do |b|
           b.use setup
