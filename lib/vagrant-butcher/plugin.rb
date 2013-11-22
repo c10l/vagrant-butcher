@@ -24,11 +24,6 @@ module Vagrant
       config("butcher") do
         Config
       end
-
-      command("butcher") do
-        require_relative 'command'
-        Command
-      end
     end
   end
 end
