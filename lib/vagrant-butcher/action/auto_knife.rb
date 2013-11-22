@@ -8,10 +8,6 @@ module Vagrant
           @app = app
         end
 
-        def victim(env)
-          @victim ||= chef_provisioner(env).node_name || vm_config(env).hostname || vm_config(env).box
-        end
-
         def auto_create_knife(env)
           if !guest_cache_dir(env)
             return false
