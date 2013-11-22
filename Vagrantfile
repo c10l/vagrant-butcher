@@ -6,15 +6,16 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.require_plugin "vagrant-butcher"
 
+orgname = ENV['CHEF_ORGNAME']
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "precise64"
   # config.vm.network :private_network, ip: "192.168.33.10"
   # config.vm.network :public_network
 
-  config.butcher.knife_config_file = :auto
   config.vm.provision :chef_client do |chef|
-    chef.chef_server_url = "https://api.opscode.com/organizations/zynkmobile"
-    chef.validation_key_path = "/Users/cassiano/Projects/chef-repos/zynk/.chef/zynkmobile-validator.pem"
-    chef.validation_client_name = "zynkmobile-validator"
+    chef.chef_server_url = "https://api.opscode.com/organizations/#{orgname}"
+    chef.validation_key_path = "~/.chef/#{orgname}-validator.pem"
+    chef.validation_client_name = "#{orgname}-validator"
   end
 end

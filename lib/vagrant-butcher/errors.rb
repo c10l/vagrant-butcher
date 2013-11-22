@@ -4,7 +4,7 @@ module Vagrant
   module Butcher
     # This is a copy/adaptation of the VagrantWrapperError class of berkshelf-vagrant
     # The original can be found on https://github.com/RiotGames/berkshelf-vagrant
-    
+
     # @author Jamie Winsor <reset@riotgames.com>
     #
     # A wrapper for a BerkshelfError for Vagrant. All Berkshelf exceptions should be

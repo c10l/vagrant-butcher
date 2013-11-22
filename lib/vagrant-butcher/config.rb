@@ -36,8 +36,8 @@ module Vagrant
 
       def finalize!
         @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
-        @cache_dir = File.expand_path ".vagrant-butcher" if @cache_dir == UNSET_VALUE
-        @knife_config_file = File.expand_path "#{ENV['HOME']}/.chef/knife.rb" if @knife_config_file == UNSET_VALUE
+        @cache_dir = File.expand_path ".vagrant/butcher" if @cache_dir == UNSET_VALUE
+        @knife_config_file = :auto if @knife_config_file == UNSET_VALUE
       end
     end
   end
