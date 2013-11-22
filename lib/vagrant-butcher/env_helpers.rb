@@ -1,3 +1,8 @@
+require 'ridley'
+
+# Silence celluloid warnings and errors: https://github.com/RiotGames/ridley/issues/220
+::Ridley::Logging.logger.level = Logger.const_get 'FATAL'
+
 module Vagrant
   module Butcher
     module EnvHelpers
@@ -5,8 +10,21 @@ module Vagrant
         @vm_config ||= env[:machine].config.vm
       end
 
-      def chef_api(env)
-        ::Chef::REST.new(chef_provisioner(env).chef_server_url)
+      def setup_connection(env)
+        if ! @conn
+          @conn = ::Ridley.new(
+            server_url: chef_provisioner(env).chef_server_url,
+            client_name: victim(env),
+            client_key: auto_knife_key_path(env),
+            ssl: {
+              verify: butcher_config(env).verify_ssl
+            },
+            retries: butcher_config(env).retries,
+            retry_interval: butcher_config(env).retry_interval,
+            proxy: butcher_config(env).proxy
+          )
+        end
+        @conn
       end
 
       def chef_provisioner(env)

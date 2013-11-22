@@ -26,7 +26,7 @@ describe Vagrant::Butcher::Config do
   
   it "sets cache dir default path" do
     subject.finalize!
-    subject.cache_dir.should eql(File.expand_path(".vagrant-butcher"))
+    subject.cache_dir.should eql(File.expand_path(".vagrant/butcher"))
   end
   
   describe "#validate" do
