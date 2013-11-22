@@ -32,7 +32,7 @@ module Vagrant
           env[:butcher].ui.info "cache dir is set to '#{butcher_config(env).cache_dir}'"
         end
 
-        @cache_dir ||= butcher_config(env).cache_dir
+        @cache_dir = butcher_config(env).cache_dir
       end
 
       def guest_cache_dir(env)

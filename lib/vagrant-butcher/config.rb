@@ -4,7 +4,7 @@ module Vagrant
       attr_accessor :guest_key_path
       attr_accessor :cache_dir
       attr_accessor :knife_config_file
-      
+
       def initialize
         super
         @guest_key_path = UNSET_VALUE
@@ -23,17 +23,17 @@ module Vagrant
 
         @knife_config_file = value
       end
-      
+
       def validate(machine)
         errors = []
 
         if @knife_config_file != :auto && !File.exists?(@knife_config_file)
           errors << "Knife configuration not found at #{@knife_config_file}."
         end
-        
+
         { "butcher configuration" => errors }
       end
-      
+
       def finalize!
         @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
         @cache_dir = File.expand_path ".vagrant-butcher" if @cache_dir == UNSET_VALUE
