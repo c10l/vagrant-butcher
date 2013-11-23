@@ -10,50 +10,30 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 ## <a id="install"></a>Installation
 
-Starting with version 1.0.0, installation is made via Vagrant plugins only:
+Install this plugin using the Vagrant command line:
 
-    $ vagrant plugin install vagrant-butcher
+    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre --plugin-prerelease --plugin-source https://rubygems.org
 
 ## <a id='usage'></a>Usage
 
 The plugin is loaded automatically once installed.
 
-By default, the gem looks for the Chef server settings on `$HOME/.chef/knife.rb`. This can be overridden by setting:
+Starting with version 2.0 there is no option to point to the `knife.rb` file. A temporary file is automatically generated using the information from the `Vagrantfile`. The key used to authenticate with the Chef Server is copied from the guest VM.
 
-```ruby
-Vagrant.configure("2") do |config|
-  config.butcher.knife_config_file = '/path/to/knife.rb'
-  config.vm.provision :chef_client do |chef|
-    # Chef Client provisioner configuration
-  end
-end
-```
-
-_Note that beginning with 1.0, the configuration is done outside of the `chef_client` provisioner._
-
-This is the output of the plugin when it runs successfully:
-
-    $ vagrant destroy -f
-    [Butcher] knife.rb location set to '/path/to/knife.rb'
-    [Butcher] Chef node 'node_name' successfully butchered from the server...
-    [Butcher] Chef client 'node_name' successfully butchered from the server...
-    [default] Forcing shutdown of VM...
-    [default] Destroying VM and associated drives...
-
-### <a id='auto_knife'></a>Auto Knife
-
-Starting with version 1.1.0 you can set the knife_config_file to `:auto` if you'd like it to automatically create a knife.rb for that instance from the chef provisioner values.
-
-This option has the following two limitations:
-- It doesn't work with windows guests.
-- The default `.` -> `/vagrant` shared folder should be mounted.
+This way it's not necessary to have `chef` installed on the host or a properly set up `knife.rb`.
 
 ## <a id='caveats'></a>Caveats
 
-* Version 1.0 has only been tested with Vagrant 1.1+. If you're using an older version, it's probably best to stick to 0.0.3
 * So far this has only been tested and confirmed to run with the VirtualBox and Rackspace provisioners. It should work with others, but if you run into issues please file a bug.
+* It doesn't work with windows guests. If this is your case, either stick to version 1.x or (better) file bug reports with the errors you get.
+* The default `.` -> `/vagrant` shared folder should be mounted.
 
 ## Changelog
+
+### 2.0.0
+
+* `chef` is no longer a requirement (no more `json` conflicts)
+* `auto_knife` is now the only option
 
 ### 1.1.0
 
