@@ -12,7 +12,7 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 Install this plugin using the Vagrant command line:
 
-    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre1 --plugin-prerelease --plugin-source https://rubygems.org
+    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre2 --plugin-prerelease --plugin-source https://rubygems.org
 
 ## <a id='usage'></a>Usage
 
@@ -27,6 +27,15 @@ This way it's not necessary to have `chef` installed on the host or a properly s
 * So far this has only been tested and confirmed to run with the VirtualBox and Rackspace provisioners. It should work with others, but if you run into issues please file a bug.
 * It doesn't work with windows guests. If this is your case, either stick to version 1.x or (better) file bug reports with the errors you get.
 * The default `.` -> `/vagrant` shared folder should be mounted.
+* `verify_ssl` is disabled by default. You can enable it by setting:
+
+```ruby
+Vagrant.configure("2") do |config|
+  ...
+  config.butcher.verify_ssl = true
+  ...
+end
+```
 
 ## Changelog
 
