@@ -1,6 +1,7 @@
 module Vagrant
   module Butcher
     class Config < ::Vagrant.plugin('2', :config)
+      attr_accessor :enabled
       attr_accessor :guest_key_path
       attr_accessor :cache_dir
       attr_accessor :verify_ssl
@@ -10,6 +11,7 @@ module Vagrant
 
       def initialize
         super
+        @enabled = UNSET_VALUE
         @guest_key_path = UNSET_VALUE
         @cache_dir = UNSET_VALUE
         @verify_ssl = UNSET_VALUE
@@ -23,6 +25,7 @@ module Vagrant
       end
 
       def finalize!
+        @enabled = true if @enabled == UNSET_VALUE
         @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
         @cache_dir = File.expand_path ".vagrant/butcher" if @cache_dir == UNSET_VALUE
         @verify_ssl = false if @verify_ssl == UNSET_VALUE

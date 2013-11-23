@@ -1,3 +1,4 @@
+
 [![Gem Version](https://badge.fury.io/rb/vagrant-butcher.png)](http://badge.fury.io/rb/vagrant-butcher)
 [![Build Status](https://travis-ci.org/cassianoleal/vagrant-butcher.png)](https://travis-ci.org/cassianoleal/vagrant-butcher)
 [![Code Climate](https://codeclimate.com/github/cassianoleal/vagrant-butcher.png)](https://codeclimate.com/github/cassianoleal/vagrant-butcher)
@@ -12,7 +13,7 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 Install this plugin using the Vagrant command line:
 
-    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre2 --plugin-prerelease --plugin-source https://rubygems.org
+    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre3 --plugin-prerelease --plugin-source https://rubygems.org
 
 ## <a id='usage'></a>Usage
 
@@ -21,6 +22,16 @@ The plugin is loaded automatically once installed.
 Starting with version 2.0 there is no option to point to the `knife.rb` file. A temporary file is automatically generated using the information from the `Vagrantfile`. The key used to authenticate with the Chef Server is copied from the guest VM.
 
 This way it's not necessary to have `chef` installed on the host or a properly set up `knife.rb`.
+
+An `enabled` configuration flag has been added if you don't want to clean up the Chef Server when destroying the VM. Tu use it, add this to your `Vagrantfile`:
+
+```ruby
+Vagrant.configure("2") do |config|
+  ...
+  config.butcher.enabled = false
+  ...
+end
+```
 
 ## <a id='caveats'></a>Caveats
 
@@ -43,6 +54,7 @@ end
 
 * `chef` is no longer a requirement (no more `json` conflicts)
 * `auto_knife` is now the only option
+* Configuration item `enabled` added
 
 ### 1.1.0
 
