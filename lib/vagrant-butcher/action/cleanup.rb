@@ -36,10 +36,7 @@ module Vagrant
 
           if chef_client?(env) && knife_config_file(env)
             %w(node client).each { |resource| delete_resource(resource, env) }
-
-            if auto_knife?(env)
-              delete_auto_knife(env)
-            end
+            delete_auto_knife(env)
           end
 
           @app.call(env)

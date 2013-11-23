@@ -37,10 +37,6 @@ module Vagrant
         vm_config(env).provisioners.select { |p| p.name == :chef_client }.any?
       end
 
-      def auto_knife?(env)
-        butcher_config(env).knife_config_file == :auto
-      end
-
       def butcher_config(env)
         @butcher_config ||= env[:machine].config.butcher
       end
@@ -82,13 +78,9 @@ module Vagrant
 
       def knife_config_file(env)
         unless @knife_config_file
-          if auto_knife?(env)
-            file = "#{cache_dir(env)}/#{env[:machine].name}-knife.rb"
-            unless File.exists?(file)
-              file = false
-            end
-          else
-            file = butcher_config(env).knife_config_file
+          file = "#{cache_dir(env)}/#{env[:machine].name}-knife.rb"
+          unless File.exists?(file)
+            file = false
           end
 
           env[:butcher].ui.info "knife.rb location set to '#{file}'"

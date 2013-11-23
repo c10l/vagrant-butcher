@@ -43,7 +43,7 @@ module Vagrant
         end
 
         def call(env)
-          if chef_client?(env) && auto_knife?(env) && !File.exists?(auto_knife_config_file(env))
+          if chef_client?(env) && !File.exists?(auto_knife_config_file(env))
             unless auto_create_knife(env)
               env[:butcher].ui.error "Failed to auto create knife.rb."
             end
