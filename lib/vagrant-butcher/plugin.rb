@@ -9,13 +9,13 @@ module Vagrant
       class << self
         def provision(hook)
           # This should be at the end so that it can copy the chef client pem.
-          hook.append(::Vagrant::Butcher::Action.auto_knife)
+          hook.append(::Vagrant::Butcher::Action.copy_guest_key)
         end
       end
 
-      action_hook(:vagrant_butcher_auto_knife, :machine_action_up, &method(:provision))
-      action_hook(:vagrant_butcher_auto_knife, :machine_action_reload, &method(:provision))
-      action_hook(:vagrant_butcher_auto_knife, :machine_action_provision, &method(:provision))
+      action_hook(:vagrant_butcher_copy_guest_key, :machine_action_up, &method(:provision))
+      action_hook(:vagrant_butcher_copy_guest_key, :machine_action_reload, &method(:provision))
+      action_hook(:vagrant_butcher_copy_guest_key, :machine_action_provision, &method(:provision))
 
       action_hook(:vagrant_butcher_cleanup, :machine_action_destroy) do |hook|
         hook.after(::Vagrant::Action::Builtin::ConfigValidate, Vagrant::Butcher::Action.cleanup)

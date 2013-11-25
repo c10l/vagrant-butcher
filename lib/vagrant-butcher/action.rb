@@ -2,7 +2,7 @@ module Vagrant
   module Butcher
     module Action
       autoload :Cleanup, 'vagrant-butcher/action/cleanup'
-      autoload :AutoKnife, 'vagrant-butcher/action/auto_knife'
+      autoload :CopyGuestKey, 'vagrant-butcher/action/copy_guest_key'
 
       def self.cleanup
         ::Vagrant::Action::Builder.new.tap do |b|
@@ -11,10 +11,10 @@ module Vagrant
         end
       end
 
-      def self.auto_knife
+      def self.copy_guest_key
         ::Vagrant::Action::Builder.new.tap do |b|
           b.use setup
-          b.use Vagrant::Butcher::Action::AutoKnife
+          b.use Vagrant::Butcher::Action::CopyGuestKey
         end
       end
 

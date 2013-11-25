@@ -1,7 +1,7 @@
 module Vagrant
   module Butcher
     module Action
-      class AutoKnife
+      class CopyGuestKey
         include ::Vagrant::Butcher::EnvHelpers
 
         def initialize(app, env)
