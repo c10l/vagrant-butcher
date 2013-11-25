@@ -49,26 +49,33 @@ module Vagrant
         @cache_dir ||= butcher_config(env).cache_dir
       end
 
+      def cache_dir_pair(env)
+        unless @cache_dir_pair
+          # Grab all enabled synced_folders
+          synced_folders = vm_config(env).synced_folders.values.find_all { |f| !f[:disabled] }
+
+          # Expand the hostpath of each folder
+          synced_folders.each { |f| f[:hostpath] = File.expand_path(f[:hostpath]) }
+
+          # Select the folder wherein the cache_dir is contained
+          cache_dir_pairs = synced_folders.select { |f| cache_dir(env) =~ /^#{f[:hostpath]}/ }
+          @cache_dir_pair = cache_dir_pairs.first if cache_dir_pairs.any?
+        end
+        @cache_dir_pair
+      end
+
       def guest_cache_dir(env)
         unless @guest_cache_dir
-          @guest_cache_dir = false
-
-          vm_config(env).synced_folders.each_value do |f|
-            next if f[:disabled]
-
-            regex = Regexp.new('^' + Regexp.quote(File.expand_path(f[:hostpath])))
-            if cache_dir(env) =~ regex
-              @guest_cache_dir = cache_dir(env).gsub(regex, f[:guestpath])
-              break
-            end
-          end
-
-          unless @guest_cache_dir
+          if cache_dir_pair(env)
+            # Return the path to the cache dir inside the VM
+            @guest_cache_dir = cache_dir(env).gsub(cache_dir_pair(env)[:hostpath], cache_dir_pair(env)[:guestpath])
+            env[:butcher].ui.info "Guest cache dir at #{@guest_cache_dir}"
+          else
+            @guest_cache_dir = false
             env[:butcher].ui.error "We couldn't find a synced folder to access the cache dir on the guest."
             env[:butcher].ui.error "Did you disable the /vagrant folder or set a butcher.cache_path that isn't shared with the guest?"
           end
         end
-
         @guest_cache_dir
       end
 
