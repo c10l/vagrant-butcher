@@ -8,6 +8,8 @@ module Vagrant
       attr_accessor :retries
       attr_accessor :retry_interval
       attr_accessor :proxy
+      attr_accessor :client_name
+      attr_accessor :client_key
 
       def initialize
         super
@@ -18,6 +20,8 @@ module Vagrant
         @retries = UNSET_VALUE
         @retry_interval = UNSET_VALUE
         @proxy = UNSET_VALUE
+        @client_name = UNSET_VALUE
+        @client_key = UNSET_VALUE
       end
 
       def cache_dir=(value)
@@ -32,6 +36,8 @@ module Vagrant
         @retries = 0 if @retries == UNSET_VALUE
         @retry_interval = 0 if @retry_interval == UNSET_VALUE
         @proxy = nil if @proxy == UNSET_VALUE
+        @client_name = nil if @client_name == UNSET_VALUE
+        @client_key = nil if @client_key == UNSET_VALUE
       end
     end
   end
