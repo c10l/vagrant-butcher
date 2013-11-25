@@ -1,4 +1,3 @@
-
 [![Gem Version](https://badge.fury.io/rb/vagrant-butcher.png)](http://badge.fury.io/rb/vagrant-butcher)
 [![Build Status](https://travis-ci.org/cassianoleal/vagrant-butcher.png)](https://travis-ci.org/cassianoleal/vagrant-butcher)
 [![Code Climate](https://codeclimate.com/github/cassianoleal/vagrant-butcher.png)](https://codeclimate.com/github/cassianoleal/vagrant-butcher)
@@ -13,48 +12,50 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 Install this plugin using the Vagrant command line:
 
-    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre5 --plugin-prerelease --plugin-source https://rubygems.org
+    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre6 --plugin-prerelease --plugin-source https://rubygems.org
 
 ## <a id='usage'></a>Usage
 
 The plugin is loaded automatically once installed.
 
-Starting with version 2.0 there is no option to point to the `knife.rb` file. A temporary file is automatically generated using the information from the `Vagrantfile`. The key used to authenticate with the Chef Server is copied from the guest VM.
+## <a id='configuration'></a>Configuration
 
-This way it's not necessary to have `chef` installed on the host or a properly set up `knife.rb`.
-
-An `enabled` configuration flag has been added if you don't want to clean up the Chef Server when destroying the VM. Tu use it, add this to your `Vagrantfile`:
+For most cases, the plugin shouldn't need any configuration. However, there are a few options that can be set. The options are all set in the `Vagrantfile` in the format:
 
 ```ruby
 Vagrant.configure("2") do |config|
   ...
-  config.butcher.enabled = false
+  config.butcher.<option> = <value>
   ...
 end
 ```
+
+Option | Default Value | Purpose
+-------|---------|--------
+`enabled` | `true` | Defines whether `node` and `client` should be deleted
+`guest_key_path` | `'/etc/chef/client.pem'` | Location of the client key in the guest VM
+`verify_ssl` | `true` | If set to false, does not verify Chef's host key
+`proxy` | `nil` | Inform the URL of a proxy server between your host and the Chef Server
+`client_name` | Guest's node name | Inform a client name to override the plugin's default behaviour
+`client_key` | Guest's client key | Point to a local `.pem` key file that matches the `client_name`
 
 ## <a id='caveats'></a>Caveats
 
 * So far this has only been tested and confirmed to run with the VirtualBox and Rackspace provisioners. It should work with others, but if you run into issues please file a bug.
 * It doesn't work with windows guests. If this is your case, either stick to version 1.x or (better) file bug reports with the errors you get.
 * The default `.` -> `/vagrant` shared folder should be mounted.
-* `verify_ssl` is enabled by default. You might want to disable that if, for example, you run your own Chef server with a self-signed cert. Disable it by editing your `Vagrantfile`:
-
-```ruby
-Vagrant.configure("2") do |config|
-  ...
-  config.butcher.verify_ssl = false
-  ...
-end
-```
+* `verify_ssl` is enabled by default. You might want to disable that if, for example, you run your own Chef server with a self-signed cert. Check [here](#configuration) to see how.
 
 ## Changelog
 
 ### 2.0.0
 
+* No more option to point to `knife.rb`. Data is retrieved from the `Vagrantfile`'s `chef_client` provisioner
 * `chef` is no longer a requirement (no more `json` conflicts)
-* `auto_knife` is now the only option
-* Configuration item `enabled` added
+* [Configuration](#configuration) items were added to point to custom client name and key
+* It's possible to disable the plugin by setting the `enabled` flag to `false` in the Vagrantfile.
+
+See [Configuration](#configuration) for all possible customisations.
 
 ### 1.1.0
 
