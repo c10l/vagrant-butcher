@@ -22,7 +22,7 @@ module Vagrant
         def delete_auto_knife(env)
           if @delete_all_success
             File.delete(auto_knife_config_file(env))
-            File.delete(auto_knife_key_path(env))
+            File.delete(client_key_path(env))
             begin
               Dir.delete(cache_dir(env))
             rescue

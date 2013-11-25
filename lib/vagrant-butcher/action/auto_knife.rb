@@ -21,17 +21,17 @@ module Vagrant
           begin
             env[:machine].communicate.execute "cp #{guest_key_path(env)} #{auto_knife_guest_key_path(env)}", :sudo => true
           rescue Exception => e
-            env[:butcher].ui.error "Failed to copy  #{guest_key_path(env)} to #{auto_knife_key_path(env)}"
+            env[:butcher].ui.error "Failed to copy  #{guest_key_path(env)} to #{client_key_path(env)}"
             env[:butcher].ui.error e
             return false
           end
 
-          env[:butcher].ui.info "Copied #{guest_key_path(env)} to #{auto_knife_key_path(env)}"
+          env[:butcher].ui.info "Copied #{guest_key_path(env)} to #{client_key_path(env)}"
 
           knife_rb = <<-END.gsub(/^ */, '')
             log_level                :info
             log_location             STDOUT
-            client_key               '#{auto_knife_key_path(env)}'
+            client_key               '#{client_key_path(env)}'
             node_name                '#{victim(env)}'
           END
 

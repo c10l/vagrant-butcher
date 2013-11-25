@@ -16,7 +16,7 @@ module Vagrant
             @conn = ::Ridley.new(
               server_url: chef_provisioner(env).chef_server_url,
               client_name: victim(env),
-              client_key: auto_knife_key_path(env),
+              client_key: client_key_path(env),
               ssl: {
                 verify: butcher_config(env).verify_ssl
               },
@@ -25,7 +25,7 @@ module Vagrant
               proxy: butcher_config(env).proxy
             )
           rescue Ridley::Errors::ClientKeyFileNotFound
-            env[:butcher].ui.error "Chef client key not found at #{auto_knife_key_path(env)}"
+            env[:butcher].ui.error "Chef client key not found at #{client_key_path(env)}"
           end
         end
         @conn
@@ -102,16 +102,16 @@ module Vagrant
         @knife_config_file
       end
 
-      def auto_knife_key(env)
-        @auto_knife_key ||= "#{env[:machine].name}-client.pem"
+      def client_key(env)
+        @client_key ||= "#{env[:machine].name}-client.pem"
       end
 
-      def auto_knife_key_path(env)
-        @auto_knife_key_path ||= "#{cache_dir(env)}/#{auto_knife_key(env)}"
+      def client_key_path(env)
+        @client_key_path ||= "#{cache_dir(env)}/#{client_key(env)}"
       end
 
       def auto_knife_guest_key_path(env)
-        @auto_knife_guest_key_path ||= "#{guest_cache_dir(env)}/#{auto_knife_key(env)}"
+        @auto_knife_guest_key_path ||= "#{guest_cache_dir(env)}/#{client_key(env)}"
       end
 
       def victim(env)
