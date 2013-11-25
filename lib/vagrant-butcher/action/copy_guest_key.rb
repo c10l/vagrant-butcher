@@ -21,7 +21,7 @@ module Vagrant
           begin
             env[:machine].communicate.execute "cp #{guest_key_path(env)} #{guest_client_key_path(env)}", :sudo => true
           rescue Exception => e
-            env[:butcher].ui.error "Failed to copy  #{guest_key_path(env)} to #{client_key_path(env)}"
+            env[:butcher].ui.error "Failed to copy #{guest_key_path(env)} to #{client_key_path(env)}"
             env[:butcher].ui.error e
             return false
           end
