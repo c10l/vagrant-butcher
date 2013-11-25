@@ -28,7 +28,7 @@ module Vagrant
         @enabled = true if @enabled == UNSET_VALUE
         @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
         @cache_dir = File.expand_path ".vagrant/butcher" if @cache_dir == UNSET_VALUE
-        @verify_ssl = false if @verify_ssl == UNSET_VALUE
+        @verify_ssl = true if @verify_ssl == UNSET_VALUE
         @retries = 0 if @retries == UNSET_VALUE
         @retry_interval = 0 if @retry_interval == UNSET_VALUE
         @proxy = nil if @proxy == UNSET_VALUE

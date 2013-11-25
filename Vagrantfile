@@ -13,6 +13,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.network :private_network, ip: "192.168.33.10"
   # config.vm.network :public_network
 
+  config.butcher.verify_ssl = true
+
   config.vm.provision :chef_client do |chef|
     chef.chef_server_url = "https://api.opscode.com/organizations/#{orgname}"
     chef.validation_key_path = "~/.chef/#{orgname}-validator.pem"
