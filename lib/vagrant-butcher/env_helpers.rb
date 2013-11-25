@@ -91,8 +91,8 @@ module Vagrant
         @client_key_path ||= "#{cache_dir(env)}/#{client_key(env)}"
       end
 
-      def auto_knife_guest_key_path(env)
-        @auto_knife_guest_key_path ||= "#{guest_cache_dir(env)}/#{client_key(env)}"
+      def guest_client_key_path(env)
+        @guest_client_key_path ||= "#{guest_cache_dir(env)}/#{client_key(env)}"
       end
 
       def victim(env)
