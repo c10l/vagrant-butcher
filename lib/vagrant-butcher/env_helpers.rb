@@ -24,7 +24,7 @@ module Vagrant
               retry_interval: butcher_config(env).retry_interval,
               proxy: butcher_config(env).proxy
             )
-          rescue Ridley::Errors::ClientKeyFileNotFound
+          rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
             env[:butcher].ui.error "Chef client key not found at #{client_key_path(env)}"
           end
         end
