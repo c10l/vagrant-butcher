@@ -11,18 +11,22 @@ module Vagrant
       end
 
       def setup_connection(env)
-        if ! @conn
-          @conn = ::Ridley.new(
-            server_url: chef_provisioner(env).chef_server_url,
-            client_name: victim(env),
-            client_key: auto_knife_key_path(env),
-            ssl: {
-              verify: butcher_config(env).verify_ssl
-            },
-            retries: butcher_config(env).retries,
-            retry_interval: butcher_config(env).retry_interval,
-            proxy: butcher_config(env).proxy
-          )
+        unless @conn
+          begin
+            @conn = ::Ridley.new(
+              server_url: chef_provisioner(env).chef_server_url,
+              client_name: victim(env),
+              client_key: auto_knife_key_path(env),
+              ssl: {
+                verify: butcher_config(env).verify_ssl
+              },
+              retries: butcher_config(env).retries,
+              retry_interval: butcher_config(env).retry_interval,
+              proxy: butcher_config(env).proxy
+            )
+          rescue Ridley::Errors::ClientKeyFileNotFound
+            env[:butcher].ui.error "Chef client key not found at #{auto_knife_key_path(env)}"
+          end
         end
         @conn
       end
