@@ -15,7 +15,7 @@ module Vagrant
           begin
             @conn = ::Ridley.new(
               server_url: chef_provisioner(env).chef_server_url,
-              client_name: victim(env),
+              client_name: client_name(env),
               client_key: client_key(env),
               ssl: {
                 verify: butcher_config(env).verify_ssl
@@ -99,6 +99,10 @@ module Vagrant
 
       def client_key(env)
         @client_key ||= butcher_config(env).client_key || host_key_path(env)
+      end
+
+      def client_name(env)
+        @client_name ||= butcher_config(env).client_name || victim(env)
       end
 
       def victim(env)
