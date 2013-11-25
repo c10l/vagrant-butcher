@@ -14,14 +14,14 @@ module Vagrant
             @conn.send(resource.to_sym).delete(victim(env))
             env[:butcher].ui.success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
           rescue Exception => e
-            env[:butcher].ui.warn "Could not remove #{resource} #{victim(env)}: #{e.message}"
+            env[:butcher].ui.warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
             @delete_all_success = false
           end
         end
 
         def cleanup_cache_dir(env)
           if @delete_all_success
-            File.delete(client_key_path(env))
+            File.delete(host_key_path(env))
             begin
               Dir.delete(cache_dir(env))
             rescue
