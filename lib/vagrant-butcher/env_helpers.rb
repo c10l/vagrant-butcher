@@ -83,25 +83,6 @@ module Vagrant
         @guest_key_path ||= butcher_config(env).guest_key_path
       end
 
-      def auto_knife_config_file(env)
-        @auto_knife_config_file ||= "#{cache_dir(env)}/#{env[:machine].name}-knife.rb"
-      end
-
-      def knife_config_file(env)
-        unless @knife_config_file
-          file = "#{cache_dir(env)}/#{env[:machine].name}-knife.rb"
-          unless File.exists?(file)
-            file = false
-          end
-
-          env[:butcher].ui.info "knife.rb location set to '#{file}'"
-
-          @knife_config_file = file
-        end
-
-        @knife_config_file
-      end
-
       def client_key(env)
         @client_key ||= "#{env[:machine].name}-client.pem"
       end

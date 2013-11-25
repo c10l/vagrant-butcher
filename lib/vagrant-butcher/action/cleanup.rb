@@ -21,7 +21,6 @@ module Vagrant
 
         def delete_auto_knife(env)
           if @delete_all_success
-            File.delete(auto_knife_config_file(env))
             File.delete(client_key_path(env))
             begin
               Dir.delete(cache_dir(env))
@@ -35,7 +34,7 @@ module Vagrant
           setup_connection(env)
 
           if butcher_config(env).enabled
-            if chef_client?(env) && knife_config_file(env)
+            if chef_client?(env)
               %w(node client).each { |resource| delete_resource(resource, env) }
               delete_auto_knife(env)
             end

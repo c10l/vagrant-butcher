@@ -28,22 +28,11 @@ module Vagrant
 
           env[:butcher].ui.info "Copied #{guest_key_path(env)} to #{client_key_path(env)}"
 
-          knife_rb = <<-END.gsub(/^ */, '')
-            log_level                :info
-            log_location             STDOUT
-            client_key               '#{client_key_path(env)}'
-            node_name                '#{victim(env)}'
-          END
-
-          File.new(auto_knife_config_file(env), 'w+').write(knife_rb)
-
-          env[:butcher].ui.success "Created #{auto_knife_config_file(env)}"
-
           return true
         end
 
         def call(env)
-          if chef_client?(env) && !File.exists?(auto_knife_config_file(env))
+          if chef_client?(env)
             unless auto_create_knife(env)
               env[:butcher].ui.error "Failed to auto create knife.rb."
             end
