@@ -19,7 +19,7 @@ module Vagrant
           end
         end
 
-        def delete_auto_knife(env)
+        def cleanup_cache_dir(env)
           if @delete_all_success
             File.delete(client_key_path(env))
             begin
@@ -36,7 +36,7 @@ module Vagrant
           if butcher_config(env).enabled
             if chef_client?(env)
               %w(node client).each { |resource| delete_resource(resource, env) }
-              delete_auto_knife(env)
+              cleanup_cache_dir(env)
             end
           else
             env[:butcher].ui.warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
