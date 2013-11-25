@@ -27,6 +27,8 @@ module Vagrant
             rescue
               # The dir wasn't empty.
             end
+          else
+            env[:butcher].ui.warn "Client and/or node not butchered from the Chef Server. Client key was left at #{host_key_path(env)}"
           end
         end
 
