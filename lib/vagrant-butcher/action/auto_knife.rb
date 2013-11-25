@@ -8,7 +8,7 @@ module Vagrant
           @app = app
         end
 
-        def auto_create_knife(env)
+        def copy_key_from_guest(env)
           if !guest_cache_dir(env)
             return false
           end
@@ -33,8 +33,8 @@ module Vagrant
 
         def call(env)
           if chef_client?(env)
-            unless auto_create_knife(env)
-              env[:butcher].ui.error "Failed to auto create knife.rb."
+            unless copy_key_from_guest(env)
+              env[:butcher].ui.error "Failed to copy Chef client key from the guest."
             end
           end
 
