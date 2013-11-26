@@ -12,7 +12,7 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 Install this plugin using the Vagrant command line:
 
-    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre6 --plugin-prerelease --plugin-source https://rubygems.org
+    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre7 --plugin-prerelease --plugin-source https://rubygems.org
 
 ## <a id='usage'></a>Usage
 

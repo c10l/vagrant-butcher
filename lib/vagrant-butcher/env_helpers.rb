@@ -25,7 +25,7 @@ module Vagrant
               proxy: butcher_config(env).proxy
             )
           rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
-            env[:butcher].ui.error "Chef client key not found at #{client_key_path(env)}"
+            env[:butcher].ui.error "Chef client key not found at #{host_key_path(env)}"
           rescue Exception => e
             env[:butcher].ui.error "Could not connect to Chef Server: #{e}"
           end
