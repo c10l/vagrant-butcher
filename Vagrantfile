@@ -20,6 +20,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.chef_server_url = "https://api.opscode.com/organizations/#{orgname}"
     chef.validation_key_path = "~/.chef/#{orgname}-validator.pem"
     chef.validation_client_name = "#{orgname}-validator"
-    chef.run_list = [ 'recipe[dummy::fail]' ]
+    # chef.run_list = [ 'recipe[dummy::fail]' ]
   end
 end

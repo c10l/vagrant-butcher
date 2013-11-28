@@ -33,7 +33,7 @@ module Vagrant
         def call(env)
           begin
             @app.call(env)
-          rescue
+          ensure
             if chef_client?(env)
               unless guest_cache_dir(env) && copy_key_from_guest(env)
                 env[:butcher].ui.error "Failed to copy Chef client key from the guest."
