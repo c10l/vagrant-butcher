@@ -16,8 +16,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.butcher.verify_ssl = true
 
   config.vm.provision :chef_client do |chef|
+    chef.node_name = 'vagrant_butcher_test_vm'
     chef.chef_server_url = "https://api.opscode.com/organizations/#{orgname}"
     chef.validation_key_path = "~/.chef/#{orgname}-validator.pem"
     chef.validation_client_name = "#{orgname}-validator"
+    chef.run_list = [ 'recipe[dummy::fail]' ]
   end
 end

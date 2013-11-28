@@ -9,7 +9,7 @@ module Vagrant
       class << self
         def provision(hook)
           # This should be at the end so that it can copy the chef client pem.
-          hook.append(::Vagrant::Butcher::Action.copy_guest_key)
+          hook.before(::Vagrant::Action::Builtin::Provision, Vagrant::Butcher::Action.copy_guest_key)
         end
       end
 
