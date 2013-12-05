@@ -12,7 +12,7 @@ This plugin will automatically get rid of that cruft for you when you destroy th
 
 Install this plugin using the Vagrant command line:
 
-    $ vagrant plugin install vagrant-butcher --plugin-version 2.0.0.pre9 --plugin-prerelease --plugin-source https://rubygems.org
+    $ vagrant plugin install vagrant-butcher
 
 ## <a id='usage'></a>Usage
 
@@ -75,6 +75,11 @@ See [Configuration](#configuration) for all possible customisations.
 ### 0.0.3
 
 * Uses chef.node_name if set. Otherwise, fall back to vm.host_name (as before), or vm.box. -- _Kudos to [pikesley](https://github.com/pikesley)_.
+
+# Authors
+
+* Cassiano Leal (<cassianoleal@gmail.com>)
+* Daniel Searles ([https://github.com/squaresurf]())
 
 ## Contributing
 
