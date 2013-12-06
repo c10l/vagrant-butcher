@@ -9,12 +9,16 @@ module Vagrant
           @delete_all_success = true
         end
 
+        def ui(env)
+          @ui ||= env[:butcher].ui
+        end
+
         def delete_resource(resource, env)
           begin
             @conn.send(resource.to_sym).delete(victim(env))
-            env[:butcher].ui.success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
+            ui(env).success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
           rescue Exception => e
-            env[:butcher].ui.warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
+            ui(env).warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
             @delete_all_success = false
           end
         end
@@ -28,7 +32,7 @@ module Vagrant
               # The dir wasn't empty.
             end
           else
-            env[:butcher].ui.warn "Client and/or node not butchered from the Chef Server. Client key was left at #{host_key_path(env)}"
+            ui(env).warn "Client and/or node not butchered from the Chef Server. Client key was left at #{host_key_path(env)}"
           end
         end
 
@@ -41,7 +45,7 @@ module Vagrant
               cleanup_cache_dir(env)
             end
           else
-            env[:butcher].ui.warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
+            ui(env).warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
           end
 
           @app.call(env)

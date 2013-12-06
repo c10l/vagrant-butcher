@@ -25,9 +25,9 @@ module Vagrant
               proxy: butcher_config(env).proxy
             )
           rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
-            env[:butcher].ui.error "Chef client key not found at #{host_key_path(env)}"
+            ui(env).error "Chef client key not found at #{host_key_path(env)}"
           rescue Exception => e
-            env[:butcher].ui.error "Could not connect to Chef Server: #{e}"
+            ui(env).error "Could not connect to Chef Server: #{e}"
           end
         end
         @conn
@@ -71,11 +71,11 @@ module Vagrant
           if cache_dir_mapping(env)
             # Return the path to the cache dir inside the VM
             @guest_cache_dir = cache_dir(env).gsub(cache_dir_mapping(env)[:hostpath], cache_dir_mapping(env)[:guestpath])
-            env[:butcher].ui.info "Guest cache dir at #{@guest_cache_dir}"
+            ui(env).info "Guest cache dir at #{@guest_cache_dir}"
           else
             @guest_cache_dir = false
-            env[:butcher].ui.error "We couldn't find a synced folder to access the cache dir on the guest."
-            env[:butcher].ui.error "Did you disable the /vagrant folder or set a butcher.cache_path that isn't shared with the guest?"
+            ui(env).error "We couldn't find a synced folder to access the cache dir on the guest."
+            ui(env).error "Did you disable the /vagrant folder or set a butcher.cache_path that isn't shared with the guest?"
           end
         end
         @guest_cache_dir
