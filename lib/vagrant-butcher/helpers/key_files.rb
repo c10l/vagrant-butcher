@@ -64,7 +64,7 @@ module Vagrant
           create_cache_dir(env)
 
           begin
-            machine(env).communicate.execute "cp #{guest_key_path(env)} #{guest_cache_key_path(env)}", :sudo => true
+            machine(env).communicate.execute "mkdir -p #{guest_cache_key_path(env)} ; cp #{guest_key_path(env)} #{guest_cache_key_path(env)}", :sudo => true
             ui(env).info "Copied #{guest_key_path(env)} to #{guest_cache_key_path(env)}"
           rescue Exception => e
             ui(env).error "Failed to copy #{guest_key_path(env)} to #{guest_cache_key_path(env)}"
