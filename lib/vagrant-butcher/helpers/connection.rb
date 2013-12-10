@@ -15,7 +15,7 @@ module Vagrant
               @conn = ::Ridley.new(
                 server_url: chef_provisioner(env).chef_server_url,
                 client_name: client_name(env),
-                client_key: client_key(env),
+                client_key: client_key_path(env),
                 ssl: {
                   verify: butcher_config(env).verify_ssl
                 },
@@ -24,7 +24,7 @@ module Vagrant
                 proxy: butcher_config(env).proxy
               )
             rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
-              ui(env).error "Chef client key not found at #{client_key(env)}"
+              ui(env).error "Chef client key not found at #{client_key_path(env)}"
             rescue Exception => e
               ui(env).error "Could not connect to Chef Server: #{e}"
             end
