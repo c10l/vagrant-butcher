@@ -42,6 +42,14 @@ module Vagrant
           end
         end
 
+        def cleanup(env)
+          setup_connection(env)
+          if chef_client?(env)
+            %w(node client).each { |resource| delete_resource(resource, env) }
+            cleanup_cache_dir(env)
+          end
+        end
+
       end
     end
   end

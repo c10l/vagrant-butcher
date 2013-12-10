@@ -11,19 +11,15 @@ module Vagrant
         end
 
         def call(env)
-          setup_connection(env)
-
           if butcher_config(machine(env)).enabled
-            if chef_client?(env)
-              %w(node client).each { |resource| delete_resource(resource, env) }
-              cleanup_cache_dir(env)
-            end
+            cleanup(env)
           else
             ui(env).warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
           end
 
           @app.call(env)
         end
+
       end
     end
   end

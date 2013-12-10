@@ -60,7 +60,7 @@ module Vagrant
           end
         end
 
-        def copy_key_from_guest(env)
+        def copy_key_file(env)
           create_cache_dir(env)
 
           begin
@@ -83,6 +83,15 @@ module Vagrant
             end
           else
             ui(env).warn "#{@failed_deletions} not butchered from the Chef Server. Client key was left at #{client_key(env)}"
+          end
+        end
+
+        def copy_guest_key(env)
+          begin
+            guest_cache_dir(env)
+            copy_key_file(env)
+          rescue ::Vagrant::Errors::VagrantError => e
+            ui(env).error "Failed to copy Chef client key from the guest: #{e.class}"
           end
         end
 

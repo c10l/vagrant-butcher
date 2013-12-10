@@ -13,16 +13,10 @@ module Vagrant
           begin
             @app.call(env)
           ensure
-            if chef_client?(env)
-              begin
-                guest_cache_dir(env)
-                copy_key_from_guest(env)
-              rescue ::Vagrant::Errors::VagrantError => e
-                ui(env).error "Failed to copy Chef client key from the guest: #{e.class}"
-              end
-            end
+            copy_guest_key(env) if chef_client?(env)
           end
         end
+
       end
     end
   end
