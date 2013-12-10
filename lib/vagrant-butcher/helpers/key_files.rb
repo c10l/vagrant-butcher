@@ -64,7 +64,7 @@ module Vagrant
           create_cache_dir(env)
 
           begin
-            machine(env).communicate.execute "mkdir -p #{guest_cache_key_path(env)} ; cp #{guest_key_path(env)} #{guest_cache_key_path(env)}", :sudo => true
+            machine(env).communicate.execute "mkdir -p `dirname #{guest_cache_key_path(env)}` ; cp #{guest_key_path(env)} #{guest_cache_key_path(env)}", :sudo => true
             ui(env).info "Copied #{guest_key_path(env)} to #{guest_cache_key_path(env)}"
           rescue Exception => e
             ui(env).error "Failed to copy #{guest_key_path(env)} to #{guest_cache_key_path(env)}"
@@ -75,12 +75,9 @@ module Vagrant
 
         def cleanup_cache_dir(env)
           unless @failed_deletions
-            File.delete(client_key(env))
-            begin
-              Dir.delete(cache_dir(env))
-            rescue Errno::ENOTEMPTY
-              # The dir wasn't empty.
-            end
+            key_file = "#{cache_dir(env)}/#{guest_key_filename(env)}"
+            File.delete(key_file) if File.exists?(key_file)
+            Dir.delete(cache_dir(env)) if Dir.entries(cache_dir(env)).empty?
           else
             ui(env).warn "#{@failed_deletions} not butchered from the Chef Server. Client key was left at #{client_key(env)}"
           end
