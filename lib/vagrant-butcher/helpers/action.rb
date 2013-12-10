@@ -2,7 +2,7 @@ module Vagrant
   module Butcher
     module Helpers
       module Action
-        include ::Vagrant::Butcher::EnvHelpers
+        include Config
 
         def ui(env)
           @ui ||= env[:butcher].ui

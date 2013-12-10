@@ -3,6 +3,7 @@ module Vagrant
     module Action
       class CopyGuestKey
         include ::Vagrant::Butcher::Helpers::Action
+        include ::Vagrant::Butcher::Helpers::KeyFiles
 
         def initialize(app, env)
           @app = app

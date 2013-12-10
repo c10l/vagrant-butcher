@@ -11,7 +11,6 @@ module Vagrant
     autoload :Action,     'vagrant-butcher/action'
     autoload :Config,     'vagrant-butcher/config'
     autoload :Env,        'vagrant-butcher/env'
-    autoload :EnvHelpers, 'vagrant-butcher/env_helpers'
     autoload :Helpers,    'vagrant-butcher/helpers'
   end
 end
