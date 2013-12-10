@@ -31,17 +31,13 @@ module Vagrant
         def grab_key_from_guest(env)
           create_cache_dir(env)
 
-          begin
-            machine(env).communicate.execute("cat #{guest_key_path(env)}", sudo: true) do |type,data|
-              @key_content = data if type == :stdout
-            end
-
-            File.open("#{cache_dir(env)}/#{key_filename(env)}", "w") { |f| f << @key_content }
-
-            ui(env).info "Saved client key to #{cache_dir(env)}/#{key_filename(env)}"
-          rescue Exception => e
-            raise ::Vagrant::Butcher::Errors::KeyCopyFailure.new(e)
+          machine(env).communicate.execute("cat #{guest_key_path(env)}", sudo: true) do |type,data|
+            @key_content = data if type == :stdin
           end
+
+          File.open("#{cache_dir(env)}/#{key_filename(env)}", "w") { |f| f << @key_content }
+
+          ui(env).info "Saved client key to #{cache_dir(env)}/#{key_filename(env)}"
         end
 
         def cleanup_cache_dir(env)
