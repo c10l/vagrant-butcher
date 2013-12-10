@@ -21,23 +21,12 @@ module Vagrant
           vm_config(env).provisioners.select { |p| p.name == :chef_client }.any?
         end
 
-        def cache_dir(env)
-          @cache_dir ||= butcher_config(env).cache_dir
+        def client_name(env)
+          @client_name ||= butcher_config(env).client_name || victim(env)
         end
 
-        def cache_dir_mapping(env)
-          unless @cache_dir_mapping
-            # Grab all enabled synced_folders
-            synced_folders = vm_config(env).synced_folders.values.find_all { |f| !f[:disabled] }
-
-            # Expand the hostpath of each folder
-            synced_folders.each { |f| f[:hostpath] = File.expand_path(f[:hostpath]) }
-
-            # Select the folder wherein the cache_dir is contained
-            cache_dir_mappings = synced_folders.select { |f| cache_dir(env) =~ /^#{f[:hostpath]}/ }
-            @cache_dir_mapping = cache_dir_mappings.first if cache_dir_mappings.any?
-          end
-          @cache_dir_mapping
+        def victim(env)
+          @victim ||= chef_provisioner(env).node_name || vm_config(env).hostname || vm_config(env).box
         end
 
       end

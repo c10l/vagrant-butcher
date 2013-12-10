@@ -32,13 +32,6 @@ module Vagrant
         @conn
       end
 
-      def client_name(env)
-        @client_name ||= butcher_config(env).client_name || victim(env)
-      end
-
-      def victim(env)
-        @victim ||= chef_provisioner(env).node_name || vm_config(env).hostname || vm_config(env).box
-      end
     end
   end
 end
