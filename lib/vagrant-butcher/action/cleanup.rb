@@ -8,30 +8,6 @@ module Vagrant
 
         def initialize(app, env)
           @app = app
-          @delete_all_success = true
-        end
-
-        def delete_resource(resource, env)
-          begin
-            @conn.send(resource.to_sym).delete(victim(env))
-            ui(env).success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
-          rescue Exception => e
-            ui(env).warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
-            @delete_all_success = false
-          end
-        end
-
-        def cleanup_cache_dir(env)
-          if @delete_all_success
-            File.delete(client_key(env))
-            begin
-              Dir.delete(cache_dir(env))
-            rescue
-              # The dir wasn't empty.
-            end
-          else
-            ui(env).warn "Client and/or node not butchered from the Chef Server. Client key was left at #{client_key(env)}"
-          end
         end
 
         def call(env)

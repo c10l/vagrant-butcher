@@ -29,9 +29,9 @@ module Vagrant
               @guest_cache_dir = cache_dir(env).gsub(cache_dir_mapping(env)[:hostpath], cache_dir_mapping(env)[:guestpath])
               ui(env).info "Guest cache dir at #{@guest_cache_dir}"
             else
-              @guest_cache_dir = false
               ui(env).error "We couldn't find a synced folder to access the cache dir on the guest."
               ui(env).error "Did you disable the /vagrant folder or set a butcher.cache_path that isn't shared with the guest?"
+              raise ::Vagrant::Butcher::Errors::NoSyncedFolder
             end
           end
           @guest_cache_dir
@@ -51,6 +51,39 @@ module Vagrant
 
         def client_key(env)
           @client_key ||= butcher_config(env).client_key || "#{cache_dir(env)}/#{guest_key_filename(env)}"
+        end
+
+        def create_cache_dir(env)
+          unless File.exists?(cache_dir(env))
+            ui(env).info "Creating #{cache_dir(env)}"
+            Dir.mkdir(cache_dir(env))
+          end
+        end
+
+        def copy_key_from_guest(env)
+          create_cache_dir(env)
+
+          begin
+            machine(env).communicate.execute "cp #{guest_key_path(env)} #{guest_cache_key_path(env)}", :sudo => true
+            ui(env).info "Copied #{guest_key_path(env)} to #{guest_cache_key_path(env)}"
+          rescue Exception => e
+            ui(env).error "Failed to copy #{guest_key_path(env)} to #{guest_cache_key_path(env)}"
+            ui(env).error e
+            raise ::Vagrant::Butcher::Errors::KeyCopyFailure
+          end
+        end
+
+        def cleanup_cache_dir(env)
+          unless @failed_deletions
+            File.delete(client_key(env))
+            begin
+              Dir.delete(cache_dir(env))
+            rescue Errno::ENOTEMPTY
+              # The dir wasn't empty.
+            end
+          else
+            ui(env).warn "#{@failed_deletions} not butchered from the Chef Server. Client key was left at #{client_key(env)}"
+          end
         end
 
       end

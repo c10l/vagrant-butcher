@@ -31,6 +31,17 @@ module Vagrant
           @conn
         end
 
+        def delete_resource(resource, env)
+          begin
+            @conn.send(resource.to_sym).delete(victim(env))
+            ui(env).success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
+          rescue Exception => e
+            ui(env).warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
+            @failed_deletions ||= []
+            @failed_deletions << resource
+          end
+        end
+
       end
     end
   end
