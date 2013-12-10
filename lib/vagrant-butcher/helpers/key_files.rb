@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Vagrant
   module Butcher
     module Helpers
@@ -56,7 +58,7 @@ module Vagrant
         def create_cache_dir(env)
           unless File.exists?(cache_dir(env))
             ui(env).info "Creating #{cache_dir(env)}"
-            Dir.mkdir(cache_dir(env))
+            FileUtils.mkdir_p(cache_dir(env))
           end
         end
 
@@ -77,7 +79,7 @@ module Vagrant
           unless @failed_deletions
             key_file = "#{cache_dir(env)}/#{guest_key_filename(env)}"
             File.delete(key_file) if File.exists?(key_file)
-            Dir.delete(cache_dir(env)) if Dir.entries(cache_dir(env)).empty?
+            Dir.delete(cache_dir(env)) if (Dir.entries(cache_dir(env)) - %w{ . .. }).empty?
           else
             ui(env).warn "#{@failed_deletions} not butchered from the Chef Server. Client key was left at #{client_key(env)}"
           end
