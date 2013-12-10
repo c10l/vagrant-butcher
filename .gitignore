@@ -18,3 +18,4 @@ tmp
 .idea/
 .vagrant/
 .vagrant-butcher/
+*.sublime-*
