@@ -21,14 +21,14 @@ module Vagrant
 
         def cleanup_cache_dir(env)
           if @delete_all_success
-            File.delete(host_key_path(env))
+            File.delete(client_key(env))
             begin
               Dir.delete(cache_dir(env))
             rescue
               # The dir wasn't empty.
             end
           else
-            ui(env).warn "Client and/or node not butchered from the Chef Server. Client key was left at #{host_key_path(env)}"
+            ui(env).warn "Client and/or node not butchered from the Chef Server. Client key was left at #{client_key(env)}"
           end
         end
 

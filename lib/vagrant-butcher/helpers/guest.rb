@@ -26,12 +26,12 @@ module Vagrant
           @guest_key ||= "#{env[:machine].name}-client.pem"
         end
 
-        def host_key_path(env)
-          @host_key_path ||= "#{cache_dir(env)}/#{guest_key_filename(env)}"
-        end
-
         def guest_cache_key_path(env)
           @guest_cache_key_path ||= "#{guest_cache_dir(env)}/#{guest_key_filename(env)}"
+        end
+
+        def client_key(env)
+          @client_key ||= butcher_config(env).client_key || "#{cache_dir(env)}/#{guest_key_filename(env)}"
         end
 
       end
