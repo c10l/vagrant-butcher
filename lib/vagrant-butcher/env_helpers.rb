@@ -6,9 +6,7 @@ require 'ridley'
 module Vagrant
   module Butcher
     module EnvHelpers
-      def vm_config(env)
-        @vm_config ||= env[:machine].config.vm
-      end
+      include ::Vagrant::Butcher::Helpers::Config
 
       def setup_connection(env)
         unless @conn
@@ -26,8 +24,8 @@ module Vagrant
             )
           rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
             ui(env).error "Chef client key not found at #{host_key_path(env)}"
-          rescue Exception => e
-            ui(env).error "Could not connect to Chef Server: #{e}"
+          # rescue Exception => e
+          #   ui(env).error "Could not connect to Chef Server: #{e}"
           end
         end
         @conn
@@ -41,10 +39,6 @@ module Vagrant
 
       def chef_client?(env)
         vm_config(env).provisioners.select { |p| p.name == :chef_client }.any?
-      end
-
-      def butcher_config(env)
-        @butcher_config ||= env[:machine].config.butcher
       end
 
       def cache_dir(env)

@@ -2,15 +2,11 @@ module Vagrant
   module Butcher
     module Action
       class Cleanup
-        include ::Vagrant::Butcher::EnvHelpers
+        include ::Vagrant::Butcher::Helpers::Action
 
         def initialize(app, env)
           @app = app
           @delete_all_success = true
-        end
-
-        def ui(env)
-          @ui ||= env[:butcher].ui
         end
 
         def delete_resource(resource, env)
@@ -39,7 +35,7 @@ module Vagrant
         def call(env)
           setup_connection(env)
 
-          if butcher_config(env).enabled
+          if butcher_config(machine(env)).enabled
             if chef_client?(env)
               %w(node client).each { |resource| delete_resource(resource, env) }
               cleanup_cache_dir(env)

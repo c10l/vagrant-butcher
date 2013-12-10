@@ -2,14 +2,10 @@ module Vagrant
   module Butcher
     module Action
       class CopyGuestKey
-        include ::Vagrant::Butcher::EnvHelpers
+        include ::Vagrant::Butcher::Helpers::Action
 
         def initialize(app, env)
           @app = app
-        end
-
-        def ui(env)
-          @ui ||= env[:butcher].ui
         end
 
         def create_cache_dir(env)
