@@ -7,6 +7,7 @@ module Vagrant
   module Butcher
     module Helpers
       module Connection
+        include ::Vagrant::Butcher::Helpers::KeyFiles
 
         def setup_connection(env)
           unless @conn

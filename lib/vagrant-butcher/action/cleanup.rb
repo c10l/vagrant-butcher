@@ -3,7 +3,6 @@ module Vagrant
     module Action
       class Cleanup
         include ::Vagrant::Butcher::Helpers::Action
-        include ::Vagrant::Butcher::Helpers::KeyFiles
         include ::Vagrant::Butcher::Helpers::Connection
 
         def initialize(app, env)
