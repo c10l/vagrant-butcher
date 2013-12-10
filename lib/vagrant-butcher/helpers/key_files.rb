@@ -1,7 +1,7 @@
 module Vagrant
   module Butcher
     module Helpers
-      module Guest
+      module KeyFiles
 
         def guest_cache_dir(env)
           unless @guest_cache_dir
