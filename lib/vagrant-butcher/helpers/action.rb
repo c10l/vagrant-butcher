@@ -12,6 +12,10 @@ module Vagrant
           @machine ||= env[:machine]
         end
 
+        def root_path(env)
+          @root_path ||= env[:root_path]
+        end
+
       end
     end
   end

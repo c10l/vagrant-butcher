@@ -6,7 +6,7 @@ module Vagrant
       module KeyFiles
 
         def cache_dir(env)
-          @cache_dir ||= butcher_config(env).cache_dir
+          @cache_dir ||= File.expand_path(File.join(root_path(env), butcher_config(env).cache_dir))
         end
 
         def guest_key_path(env)
