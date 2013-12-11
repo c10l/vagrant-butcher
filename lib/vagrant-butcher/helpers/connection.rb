@@ -10,26 +10,23 @@ module Vagrant
         include ::Vagrant::Butcher::Helpers::KeyFiles
 
         def setup_connection(env)
-          unless @conn
-            begin
-              @conn = ::Ridley.new(
-                server_url: chef_provisioner(env).chef_server_url,
-                client_name: client_name(env),
-                client_key: client_key(env),
-                ssl: {
-                  verify: butcher_config(env).verify_ssl
-                },
-                retries: butcher_config(env).retries,
-                retry_interval: butcher_config(env).retry_interval,
-                proxy: butcher_config(env).proxy
-              )
-            rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
-              ui(env).error "Chef client key not found at #{client_key(env)}"
-            rescue Exception => e
-              ui(env).error "Could not connect to Chef Server: #{e}"
-            end
+          begin
+            @conn = ::Ridley.new(
+              server_url: chef_provisioner(env).chef_server_url,
+              client_name: client_name(env),
+              client_key: client_key_path(env),
+              ssl: {
+                verify: butcher_config(env).verify_ssl
+              },
+              retries: butcher_config(env).retries,
+              retry_interval: butcher_config(env).retry_interval,
+              proxy: butcher_config(env).proxy
+            )
+          rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
+            ui(env).error "Chef client key not found at #{client_key_path(env)}"
+          rescue Exception => e
+            ui(env).error "Could not connect to Chef Server: #{e}"
           end
-          @conn
         end
 
         def delete_resource(resource, env)
