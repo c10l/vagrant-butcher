@@ -14,7 +14,7 @@ module Vagrant
         end
 
         def key_filename(env)
-          @key_filename ||= "#{env[:machine].name}-client.pem"
+          @key_filename ||= "#{machine(env).name}-client.pem"
         end
 
         def client_key_path(env)
