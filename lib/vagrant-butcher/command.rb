@@ -6,8 +6,17 @@ module Vagrant
       include ::Vagrant::Butcher::Helpers::Connection
 
       def execute
-        copy_guest_key(@env)
-        cleanup(@env)
+        opts = OptionParser.new do |o|
+          o.banner = "Usage: vagrant butcher [machine1 [machine2 [...]]]"
+        end
+
+        argv = parse_options(opts)
+
+        with_target_vms(argv) do |machine|
+          @machine = machine
+          copy_guest_key(@env)
+          cleanup(@env)
+        end
       end
     end
   end
