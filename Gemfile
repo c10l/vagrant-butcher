@@ -9,3 +9,7 @@ group :development do
   # Vagrant environment itself using `vagrant plugin`.
   gem "vagrant", :github => 'mitchellh/vagrant'
 end
+
+group :plugins do
+  gem "vagrant-butcher", :path => "."
+end
