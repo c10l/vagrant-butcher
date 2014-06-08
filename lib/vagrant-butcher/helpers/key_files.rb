@@ -30,11 +30,7 @@ module Vagrant
 
         def grab_key_from_guest(env)
           create_cache_dir(env)
-
-          machine(env).communicate.execute("cat #{guest_key_path(env)}", sudo: true) do |type,data|
-            File.open("#{cache_dir(env)}/#{key_filename(env)}", "w") { |f| f << data } if type == :stdout
-          end
-
+          machine(env).communicate.download(guest_key_path(env), "#{cache_dir(env)}/#{key_filename(env)}")
           ui(env).info "Saved client key to #{cache_dir(env)}/#{key_filename(env)}"
         end
 
