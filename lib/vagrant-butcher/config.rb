@@ -11,6 +11,16 @@ module Vagrant
       attr_accessor :client_name
       attr_accessor :client_key
 
+      guest_capability 'linux', 'default_guest_key_path' do
+        require_relative 'cap/default_guest_key_path/linux'
+        Cap::DefaultGuestKeyPath::Linux
+      end
+
+      guest_capability 'windows', 'default_guest_key_path' do
+        require_relative 'cap/default_guest_key_path/windows'
+        Cap::DefaultGuestKeyPath::Windows
+      end
+
       def initialize
         super
         @enabled = UNSET_VALUE
@@ -26,7 +36,7 @@ module Vagrant
 
       def finalize!
         @enabled = true if @enabled == UNSET_VALUE
-        @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
+        @guest_key_path = guest.capability(:default_guest_key_path) if @guest_key_path == UNSET_VALUE
         @verify_ssl = true if @verify_ssl == UNSET_VALUE
         @retries = 0 if @retries == UNSET_VALUE
         @retry_interval = 0 if @retry_interval == UNSET_VALUE
