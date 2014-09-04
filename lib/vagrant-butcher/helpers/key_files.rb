@@ -4,6 +4,7 @@ module Vagrant
   module Butcher
     module Helpers
       module KeyFiles
+        include ::Vagrant::Butcher::Helpers::Guest
 
         def cache_dir(env)
           @cache_dir ||= File.expand_path(File.join(root_path(env), butcher_config(env).cache_dir))
@@ -30,7 +31,9 @@ module Vagrant
 
         def grab_key_from_guest(env)
           create_cache_dir(env)
-          machine(env).communicate.execute "chmod 0644 #{guest_key_path(env)}", :sudo => true
+          unless windows?(env)
+            machine(env).communicate.execute "chmod 0644 #{guest_key_path(env)}", :sudo => true
+          end
           machine(env).communicate.download(guest_key_path(env), "#{cache_dir(env)}/#{key_filename(env)}")
           env[:ui].info "Saved client key to #{cache_dir(env)}/#{key_filename(env)}"
         end
