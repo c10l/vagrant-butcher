@@ -10,7 +10,6 @@ module Vagrant
   module Butcher
     autoload :Action,     'vagrant-butcher/action'
     autoload :Config,     'vagrant-butcher/config'
-    autoload :Env,        'vagrant-butcher/env'
     autoload :Helpers,    'vagrant-butcher/helpers'
   end
 end

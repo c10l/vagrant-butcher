@@ -23,18 +23,18 @@ module Vagrant
               proxy: butcher_config(env).proxy
             )
           rescue Ridley::Errors::ClientKeyFileNotFoundOrInvalid
-            ui(env).error "Chef client key not found at #{client_key_path(env)}"
+            env[:ui].error "Chef client key not found at #{client_key_path(env)}"
           rescue Exception => e
-            ui(env).error "Could not connect to Chef Server: #{e}"
+            env[:ui].error "Could not connect to Chef Server: #{e}"
           end
         end
 
         def delete_resource(resource, env)
           begin
             @conn.send(resource.to_sym).delete(victim(env))
-            ui(env).success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
+            env[:ui].success "Chef #{resource} '#{victim(env)}' successfully butchered from the server..."
           rescue Exception => e
-            ui(env).warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
+            env[:ui].warn "Could not butcher #{resource} #{victim(env)}: #{e.message}"
             @failed_deletions ||= []
             @failed_deletions << resource
           end

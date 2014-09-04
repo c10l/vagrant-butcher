@@ -13,7 +13,7 @@ module Vagrant
           if butcher_config(machine(env)).enabled
             cleanup(env)
           else
-            ui(env).warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
+            env[:ui].warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
           end
 
           @app.call(env)

@@ -23,7 +23,7 @@ module Vagrant
 
         def create_cache_dir(env)
           unless File.exists?(cache_dir(env))
-            ui(env).info "Creating #{cache_dir(env)}"
+            env[:ui].info "Creating #{cache_dir(env)} ..."
             FileUtils.mkdir_p(cache_dir(env))
           end
         end
@@ -32,7 +32,7 @@ module Vagrant
           create_cache_dir(env)
           machine(env).communicate.execute "chmod 0644 #{guest_key_path(env)}", :sudo => true
           machine(env).communicate.download(guest_key_path(env), "#{cache_dir(env)}/#{key_filename(env)}")
-          ui(env).info "Saved client key to #{cache_dir(env)}/#{key_filename(env)}"
+          env[:ui].info "Saved client key to #{cache_dir(env)}/#{key_filename(env)}"
         end
 
         def cleanup_cache_dir(env)
@@ -41,7 +41,7 @@ module Vagrant
             File.delete(key_file) if File.exists?(key_file)
             Dir.delete(cache_dir(env)) if (Dir.entries(cache_dir(env)) - %w{ . .. }).empty?
           else
-            ui(env).warn "#{@failed_deletions} not butchered from the Chef Server. Client key was left at #{client_key_path(env)}"
+            env[:ui].warn "#{@failed_deletions} not butchered from the Chef Server. Client key was left at #{client_key_path(env)}"
           end
         end
 
@@ -49,7 +49,7 @@ module Vagrant
           begin
             grab_key_from_guest(env)
           rescue ::Vagrant::Errors::VagrantError => e
-            ui(env).error "Failed to create #{cache_dir(env)}/#{key_filename(env)}: #{e.class} - #{e}"
+            env[:ui].error "Failed to create #{cache_dir(env)}/#{key_filename(env)}: #{e.class} - #{e}"
           end
         end
 
