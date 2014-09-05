@@ -48,6 +48,13 @@ Option | Default Value | Purpose
 
 ## Changelog
 
+### 2.2.0
+
+* Removed compatibility with Vagrant < 1.5
+* Fixes an issue with recent Vagrant versions where the butcher sequence would never run
+* Sets default `guest_key_path` depending on OS
+* Tested and confirmed working on Windows and Linux
+
 ### 2.0.0
 
 * No more option to point to `knife.rb`. Data is retrieved from the `Vagrantfile`'s `chef_client` provisioner
