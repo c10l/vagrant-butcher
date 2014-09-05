@@ -1,6 +1,8 @@
 module Vagrant
   module Butcher
     class Config < ::Vagrant.plugin('2', :config)
+      include Helpers::Guest
+
       attr_accessor :enabled
       attr_accessor :guest_key_path
       attr_reader   :cache_dir
@@ -26,7 +28,7 @@ module Vagrant
 
       def finalize!
         @enabled = true if @enabled == UNSET_VALUE
-        @guest_key_path = '/etc/chef/client.pem' if @guest_key_path == UNSET_VALUE
+        @guest_key_path = :DEFAULT if @guest_key_path == UNSET_VALUE
         @verify_ssl = true if @verify_ssl == UNSET_VALUE
         @retries = 0 if @retries == UNSET_VALUE
         @retry_interval = 0 if @retry_interval == UNSET_VALUE

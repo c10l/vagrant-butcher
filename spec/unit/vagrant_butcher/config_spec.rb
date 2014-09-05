@@ -37,7 +37,7 @@ describe Vagrant::Butcher::Config do
 
   it "sets guest chef client pem default path" do
     subject.finalize!
-    subject.guest_key_path.should eql('/etc/chef/client.pem')
+    subject.guest_key_path.should eql(:DEFAULT)
   end
 
   it "sets cache dir path" do

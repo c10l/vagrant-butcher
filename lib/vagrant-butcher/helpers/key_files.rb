@@ -11,7 +11,7 @@ module Vagrant
         end
 
         def guest_key_path(env)
-          @guest_key_path ||= butcher_config(env).guest_key_path
+          @guest_key_path ||= get_guest_key_path(env)
         end
 
         def key_filename(env)
