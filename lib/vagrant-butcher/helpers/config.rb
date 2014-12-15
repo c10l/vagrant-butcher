@@ -18,7 +18,11 @@ module Vagrant
         end
 
         def chef_client?(env)
-          vm_config(env).provisioners.select { |p| p.name == :chef_client }.any?
+          vm_config(env).provisioners.select do |p|
+            # At some point, Vagrant changed from name to type.
+            p.name == :chef_client || \
+            p.type == :chef_client
+          end.any?
         end
 
         def client_name(env)
