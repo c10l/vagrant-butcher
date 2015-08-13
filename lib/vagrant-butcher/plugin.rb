@@ -18,7 +18,7 @@ module Vagrant
       action_hook(:vagrant_butcher_copy_guest_key, :machine_action_provision, &method(:provision))
 
       action_hook(:vagrant_butcher_cleanup, :machine_action_destroy) do |hook|
-        hook.before(::Vagrant::Action::Builtin::ProvisionerCleanup, Vagrant::Butcher::Action.cleanup)
+        hook.after(::Vagrant::Action::Builtin::DestroyConfirm, Vagrant::Butcher::Action.cleanup)
       end
 
       config("butcher") do

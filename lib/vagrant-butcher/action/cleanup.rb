@@ -11,6 +11,7 @@ module Vagrant
 
         def call(env)
           if butcher_config(machine(env)).enabled
+            grab_key_from_guest(env) unless client_key_cached?(env)
             cleanup(env)
           else
             env[:ui].warn "Vagrant::Butcher disabled, not cleaning up Chef server!"

@@ -18,6 +18,10 @@ module Vagrant
           @client_key_path ||= butcher_config(env).client_key || "#{cache_dir(env)}/#{key_filename(env)}"
         end
 
+        def client_key_cached?(env)
+          File::exist?(client_key_path(env))
+        end
+
         def copy_guest_key(env)
           begin
             grab_key_from_guest(env)
@@ -57,7 +61,6 @@ module Vagrant
           def key_filename(env)
             @key_filename ||= "#{env[:machine].name}-client.pem"
           end
-
       end
     end
   end
