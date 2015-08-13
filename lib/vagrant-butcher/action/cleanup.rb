@@ -15,10 +15,8 @@ module Vagrant
           else
             env[:ui].warn "Vagrant::Butcher disabled, not cleaning up Chef server!"
           end
-
           @app.call(env)
         end
-
       end
     end
   end
