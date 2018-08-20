@@ -47,6 +47,10 @@ Option | Default Value | Purpose
 
 ## Changelog
 
+### 2.3.0
+
+* Ensure to get the Chef client key (i.e., `client.pem`) before destroying the VM. Fixes #37
+
 ### 2.2.0
 
 * Removed compatibility with Vagrant < 1.5
