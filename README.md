@@ -30,14 +30,14 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-Option | Default Value | Purpose
--------|---------|--------
-`enabled` | `true` | Defines whether `node` and `client` should be deleted
-`guest_key_path` | `'/etc/chef/client.pem'` | Location of the client key in the guest VM
-`verify_ssl` | `true` | If set to false, does not verify Chef's host key
-`proxy` | `nil` | Inform the URL of a proxy server between your host and the Chef Server
-`client_name` | Guest's node name | Inform a client name to override the plugin's default behaviour
-`client_key` | Guest's client key | Point to a local `.pem` key file that matches the `client_name`
+| Option           | Default Value            | Purpose                                                                |
+| ---------------- | ------------------------ | ---------------------------------------------------------------------- |
+| `enabled`        | `true`                   | Defines whether `node` and `client` should be deleted                  |
+| `guest_key_path` | `'/etc/chef/client.pem'` | Location of the client key in the guest VM                             |
+| `verify_ssl`     | `true`                   | If set to false, does not verify Chef's host key                       |
+| `proxy`          | `nil`                    | Inform the URL of a proxy server between your host and the Chef Server |
+| `client_name`    | Guest's node name        | Inform a client name to override the plugin's default behaviour        |
+| `client_key`     | Guest's client key       | Point to a local `.pem` key file that matches the `client_name`        |
 
 ## <a id='caveats'></a>Caveats
 
@@ -46,6 +46,10 @@ Option | Default Value | Purpose
 * `verify_ssl` is enabled by default. You might want to disable that if, for example, you run your own Chef server with a self-signed cert. Check [here](#configuration) to see how.
 
 ## Changelog
+
+### 2.3.0
+
+* Fix logger spam caused by Hashie used in Ridley (see [issue](https://github.com/intridea/hashie/issues/394))
 
 ### 2.2.0
 
