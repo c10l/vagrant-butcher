@@ -11,14 +11,12 @@ require 'vagrant-butcher/errors'
 begin
   require "hashie"
   require "hashie/logger"
-  # Based on Hashie's recommendation to disable warnings:
-  # https://github.com/intridea/hashie#how-does-mash-handle-conflicts-with-pre-existing-methods
-  class Response < Hashie::Mash
-    disable_warnings
-  end
-  # Alternatively, completely silence the logger as done in Berkshelf:
-  # https://github.com/berkshelf/berkshelf/pull/1668/files
-  # Hashie.logger = Logger.new(nil)
+  # We cannot `disable_warnings` in a subclass because
+  # Hashie::Mash is used directly in the Ridley dependency:
+  # https://github.com/berkshelf/ridley/search?q=Hashie&unscoped_q=Hashie
+  # Therefore, we completely silence the Hashie logger as done in Berkshelf:
+  # https://github.com/berkshelf/berkshelf/pull/1668/files#diff-3eca4e8b32b88ae6a1f14498e3ef7b25R5
+  Hashie.logger = Logger.new(nil)
 rescue LoadError
   # intentionally left blank
 end
