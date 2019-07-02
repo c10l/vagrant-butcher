@@ -27,7 +27,7 @@ GIT
 PATH
   remote: .
   specs:
-    vagrant-butcher (2.3.2.pre.pre)
+    vagrant-butcher (2.3.2.pre)
       ridley (~> 5.1)
 
 GEM
@@ -62,7 +62,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     date (2.0.0)
-    did_you_mean (1.3.0)
+    did_you_mean (1.2.0)
     diff-lcs (1.3)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
@@ -199,9 +199,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.16)
   date
-  did_you_mean
+  did_you_mean (= 1.2.0)
   fileutils
   pry-byebug
   rspec
